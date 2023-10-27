@@ -1,3 +1,8 @@
+- [Event Storytelling – Pedido do cliente pelo Totem](#event-storytelling--pedido-do-cliente-pelo-totem)
+- [Linguagem Ubíqua](#linguagem-ubíqua)
+    - [Dicionário da Linguagem Ubíqua](#dicionário-da-linguagem-ubíqua)
+
+
 # Event Storytelling – Pedido do cliente pelo Totem
 &emsp;O processo de realização do pedido se inicia quando o cliente toca no botão “Monte seu combo aqui” na tela do totem de pedidos localizado nas dependências da lanchonete. O sistema então pergunta ao cliente se ele deseja se identificar, o qual por sua vez pode se cadastrar com nome, e-mail e CPF, se identificar apenas utilizando o CPF ou continuar o pedido sem nenhuma identificação. Caso o cliente se identifique, o sistema registra esse cliente na base ou atualiza a data da última visita se o cliente já estiver registrado. 
 
