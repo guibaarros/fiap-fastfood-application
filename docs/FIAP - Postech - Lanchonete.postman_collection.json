@@ -1,0 +1,947 @@
+{
+	"info": {
+		"_postman_id": "92b2379c-6747-4fc1-b31d-65f2d0d4dfb9",
+		"name": "FIAP - Postech - Lanchonete",
+		"description": "Collection com a configuração para utilização dos endpoins desenvolvidos para o Tech Challenge - FIAP - Lanchonete.\n\nA Collection possui os folders:\n\n- APIs: Configuração básica para utilização dos endpoints de:\n    \n    - Produto;\n        \n    - Cliente;\n        \n    - Pedido;\n        \n- Fluxo de Testes - Geral: Ordem de execução dos endpoins para um teste geral das funcionalidades do sistema:\n    \n    - Cadastro, busca, atualização e exclusão de produtos;\n        \n    - Cadastro de Cliente;\n        \n    - Criação e confirmação de pagamento de um pedido com cliente identificado;\n        \n    - Criação e confirmação de pagamento de um pedido sem cliente identificado;\n        \n    - Listagem dos pedidos em preparo;",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13086204"
+	},
+	"item": [
+		{
+			"name": "APIs",
+			"item": [
+				{
+					"name": "Produto",
+					"item": [
+						{
+							"name": "POST - Cadastrar Produto - Lanche",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "body",
+											"value": "{\n  \"name\": \"X-Bacon\",\n  \"category\": \"SNACK\",\n  \"price\": 12,\n  \"description\": \"X-Bacon clássico\"\n}",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/development/projects/fastfood-fiap-postech/.picture/hotdog.png",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8085/product",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"product"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST - Cadastrar Produto - Acompanhamento",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "body",
+											"value": "{\n  \"name\": \"Fritas com Cheddar\",\n  \"category\": \"SIDE\",\n  \"price\": 12,\n  \"description\": \"Porção de Batata Frita com molho Cheddar\"\n}",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": [],
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8085/product",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"product"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST - Cadastrar Produto - Bebida",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "body",
+											"value": "{\n  \"name\": \"Fanta Laranja\",\n  \"category\": \"DRINK\",\n  \"price\": 4,\n  \"description\": \"Fanta Laranja 200ml\"\n}",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": [],
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8085/product",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"product"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST - Cadastrar Produto - Sobremesa",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "body",
+											"value": "{\n  \"name\": \"Pudim de Chocolate\",\n  \"category\": \"DESSERT\",\n  \"price\": 6,\n  \"description\": \"Pudim de Chocolate\"\n}",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": [],
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8085/product",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"product"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT - Atualizar Produto (HotDog para HotDog Duplo)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "body",
+											"value": "{\n  \"name\": \"Hot-Dog Duplo\",\n  \"category\": \"SNACK\",\n  \"price\": 14,\n  \"description\": \"Hot-Dog Duplo\"\n}",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": [],
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8085/product/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"product",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET - Busca produtos por categoria - Lanche",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8085/product?category=SNACK",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"product"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "SNACK"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET - Busca produtos por categoria - Acompanhamento",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8085/product?category=SIDE",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"product"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "SIDE"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET - Busca produtos por categoria - Bebida",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8085/product?category=DRINK",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"product"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "DRINK"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET - Busca produtos por categoria - Sobremesa",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8085/product?category=DESSERT",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"product"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "DESSERT"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE - Exclui um Produto (Fanta Laranja)",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8085/product/14",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"product",
+										"14"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Cliente",
+					"item": [
+						{
+							"name": "GET - Busca cliente por CPF",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8085/client?cpf=11111111111",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"client"
+									],
+									"query": [
+										{
+											"key": "cpf",
+											"value": "11111111111"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST - Insere cliente",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cpf\": 28781099029,\r\n  \"name\": \"Guilherme\",\r\n  \"email\": \"guilherme@guilherme.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8085/client",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"client"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Pedido",
+					"item": [
+						{
+							"name": "GET - Busca pedidos em preparação",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8085/order",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"order"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST - FAKE CHECKOUT - Confirma pagamento do pedido",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8085/order/3/payment",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"order",
+										"3",
+										"payment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST - Cria novo pedido sem cliente identificado",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"product_ids\": [\r\n    2, 4, 8\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8085/order",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"order"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST - Cria novo pedido com cliente identificado",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"client_id\": 1, \r\n  \"product_ids\": [\r\n    2, 4, 8\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8085/order",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"order"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Fluxo de Testes",
+			"item": [
+				{
+					"name": "1. Cadastrar Produto - X-Bacon",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"X-Bacon\",\n  \"category\": \"SNACK\",\n  \"price\": 12,\n  \"description\": \"X-Bacon clássico\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8085/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Busca lista de Lanches",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/product?category=SNACK",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "SNACK"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Atualizar preço do X-Bacon",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"X-Bacon\",\n  \"category\": \"SNACK\",\n  \"price\": 16.00,\n  \"description\": \"X-Bacon clássico\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8085/product/12",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"product",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Cadastrar Produto - Fritas com Cheddar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"Fritas com Cheddar\",\n  \"category\": \"SIDE\",\n  \"price\": 12,\n  \"description\": \"Porção de Batata Frita com molho Cheddar\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8085/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Busca lista de Acompanhamentos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/product?category=SIDE",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "SIDE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. Cadastrar Produto - Fanta Laranja",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"Fanta Laranja\",\n  \"category\": \"DRINK\",\n  \"price\": 4,\n  \"description\": \"Fanta Laranja 200ml\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8085/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7. Busca lista de Bebidas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/product?category=DRINK",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "DRINK"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. Cadastrar Produto - Pudim de Chocolate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"Pudim de Chocolate\",\n  \"category\": \"DESSERT\",\n  \"price\": 6,\n  \"description\": \"Pudim de Chocolate\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8085/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9. Busca lista de Sobremesas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/product?category=DESSERT",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "DESSERT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Exclui o Pudim de Chocolate",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/product/15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"product",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11. Cadastra novo cliente - CPF 77817616000",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cpf\": 77817616000,\r\n  \"name\": \"William\",\r\n  \"email\": \"william@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/client",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12. Busca dados do cliente com CPF 77817616000",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/client?cpf=77817616000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"client"
+							],
+							"query": [
+								{
+									"key": "cpf",
+									"value": "77817616000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "13. Cria novo pedido do cliente com CPF 77817616000",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"client_id\": 6, \r\n  \"product_ids\": [\r\n    2, 4, 8\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "14. FAKE CHECKOUT - Confirma pagamento do pedido do cliente com CPF 77817616000",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/order/4/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"4",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "15. Cria novo pedido sem cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"product_ids\": [\r\n    1, 4, 7\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "16. FAKE CHECKOUT - Confirma pagamento do pedido sem cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/order/5/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"5",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "17. Lista pedidos em preparação",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

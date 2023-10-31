@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_fiap_fastfood
+    environment:
+      POSTGRES_DB: fiap_postech_fastfood
+      POSTGRES_PASSWORD: abcd1234
+      TZ: 'GMT+3'
+      PGTZ: 'GMT+3'
+    ports:
+      - 5432:5432
+    volumes:
+      - .database:/VAR/LIB/POSTGRESQL/DATA
+      - .database/initial_data.sql:/docker-entrypoint-initdb.d/initial_data.sql
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin_fiap_fastfood
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: pgadmin1234
+    ports:
+      - 15432:80
+
+  app:
+    image: fastfood-fiap-postech
+    container_name: app_fiap_fastfood
+    ports:
+      - 8085:8085
+    environment:
+      DB_HOSTNAME: postgres_fiap_fastfood
+      DB_USER: postgres
+      DB_PASSWORD: abcd1234
+    depends_on:
+      - db
