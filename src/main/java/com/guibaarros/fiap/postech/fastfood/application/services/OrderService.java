@@ -51,7 +51,6 @@ public class OrderService implements
 
     @Override
     public OrderResponseDTO createOrder(final List<Long> productIds) {
-        // TODO nao funciona
         final Order order = createOrderWithProducts(productIds);
         final Order persistedOrder = saveOrderPort.saveOrder(order);
         log.info("order without client created successfully;");
