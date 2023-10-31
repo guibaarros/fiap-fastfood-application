@@ -26,6 +26,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Objects;
 
 @Entity(name = "tb_order")
 @Getter
@@ -142,6 +143,10 @@ public class Order {
     private Duration getTotalWaitingTime() {
         if (OrderStatus.FINISHED.equals(this.status)) {
             return Duration.between(this.createdAt, this.finishedAt);
+        }
+
+        if (Objects.isNull(this.createdAt)) {
+            return Duration.ZERO;
         }
 
         return Duration.between(this.createdAt, LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
