@@ -25,13 +25,14 @@ services:
       - 15432:80
 
   app:
-    image: fastfood-fiap-postech
+    image: fastfood-fiap-postech:local
     container_name: app_fiap_fastfood
     ports:
-      - 8085:8085
+      - 8085:80
     environment:
       DB_HOSTNAME: postgres_fiap_fastfood
       DB_USER: postgres
       DB_PASSWORD: abcd1234
+      DB_PORT: 5432
     depends_on:
       - db
