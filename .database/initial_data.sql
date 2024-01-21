@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS public.tb_order
     status character varying(255) COLLATE pg_catalog."default" NOT NULL,
     total_amount numeric(38,2),
     updated_at timestamp(6) without time zone,
+    payment_status_updated_at timestamp(6) without time zone,
     client_id bigint,
     CONSTRAINT tb_order_pkey PRIMARY KEY (order_id),
     CONSTRAINT tk_tb_order_client FOREIGN KEY (client_id)
@@ -125,8 +126,8 @@ INSERT INTO public.tb_product(category, created_at, description, name, price) VA
 INSERT INTO public.tb_product(category, created_at, description, name, price) VALUES ('DESSERT', now(), 'Mousse cremoso de chocolate', 'Mousse de Chocolate', 6);
 
 -- INSERT 
-INSERT INTO public.tb_order(created_at, "number", payment_status, status, total_amount, finished_at, updated_at) VALUES ('2023-10-18 14:15:32.595585', 1, 'PAID', 'FINISHED', 32, '2023-10-18 14:28:58.125883', '2023-10-18 14:28:58.125883');
-INSERT INTO public.tb_order(created_at, "number", payment_status, status, total_amount, client_id) VALUES (now(), 1, 'PAID', 'AWAITING_PREPARATION', 33, 1);
+INSERT INTO public.tb_order(created_at, "number", payment_status, status, total_amount, finished_at, updated_at, payment_status_updated_at) VALUES ('2023-10-18 14:15:32.595585', 1, 'PAID', 'FINISHED', 32, '2023-10-18 14:28:58.125883', '2023-10-18 14:28:58.125883', '2023-10-18 14:17:21.7458');
+INSERT INTO public.tb_order(created_at, "number", payment_status, status, total_amount, client_id, payment_status_updated_at) VALUES (now(), 1, 'PAID', 'AWAITING_PREPARATION', 33, 1, now());
 INSERT INTO public.tb_order(created_at, "number", payment_status, status, total_amount, client_id) VALUES (now(), 2, 'AWAITING_PAYMENT', 'AWAITING_PAYMENT', 23, 2);
 
 -- INSERT ORDER PRODUCTS

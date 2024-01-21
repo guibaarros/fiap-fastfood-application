@@ -73,6 +73,9 @@ public class Order {
     @Column
     private LocalDateTime updatedAt;
 
+    @Column
+    private LocalDateTime paymentStatusUpdatedAt;
+
     @PrePersist
     private void prePersist() {
         this.status = OrderStatus.AWAITING_PAYMENT;
@@ -105,6 +108,7 @@ public class Order {
             this.status = OrderStatus.AWAITING_PREPARATION;
         }
         this.paymentStatus = OrderPaymentStatus.PAID;
+        this.paymentStatusUpdatedAt = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
     }
 
     public void sendToPreparation() {
@@ -134,6 +138,7 @@ public class Order {
 
     public void cancelPayment() {
         this.paymentStatus = OrderPaymentStatus.CANCELLED;
+        this.paymentStatusUpdatedAt = LocalDateTime.now();
     }
 
     public Long getTotalWaitingTimeInMinutes() {
