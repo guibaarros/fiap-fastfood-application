@@ -41,7 +41,7 @@ public class OrderController {
     private final ListQueuedOrderUseCase listQueuedOrderUseCase;
     private final ConfirmPaymentUseCase confirmPaymentUseCase;
 
-    @Operation(summary = "Criar um novo pedido")
+    @Operation(summary = "Checkout do pedido")
     @ApiResponses({
             @ApiResponse(responseCode = "201",
                     description = "Pedido criado",
