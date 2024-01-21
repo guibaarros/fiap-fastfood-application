@@ -25,7 +25,9 @@ services:
       - 15432:80
 
   app:
-    image: fastfood-fiap-postech:local
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: app_fiap_fastfood
     ports:
       - 8085:80
