@@ -1,10 +1,12 @@
 package com.guibaarros.fiap.postech.fastfood.adapters.controller;
 
 import com.guibaarros.fiap.postech.fastfood.adapters.dtos.errorhandler.ErrorDTO;
+import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.OrderPaymentStatusResponseDTO;
 import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.OrderRequestDTO;
 import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.OrderResponseDTO;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.ConfirmPaymentUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.CreateOrderUseCase;
+import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.GetOrderPaymentStatusUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.ListQueuedOrderUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,6 +42,7 @@ public class OrderController {
     private final CreateOrderUseCase createOrderUseCase;
     private final ListQueuedOrderUseCase listQueuedOrderUseCase;
     private final ConfirmPaymentUseCase confirmPaymentUseCase;
+    private final GetOrderPaymentStatusUseCase getOrderPaymentStatusUseCase;
 
     @Operation(summary = "Checkout do pedido")
     @ApiResponses({
@@ -101,6 +104,24 @@ public class OrderController {
         log.info("confirmOrderPayment; orderId={}", id);
         confirmPaymentUseCase.confirmPayment(id);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Operation(summary = "Busca status do pagamento do pedido por Id do pedido")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Pedido encontrado",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = OrderResponseDTO.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "Nenhum pedido encontrado",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorDTO.class))})
+    })
+    @GetMapping(value="{id}/payment", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<OrderPaymentStatusResponseDTO> findOrderInPreparation(@PathVariable("id") final Long id) {
+        log.info("finding order payment status, id={}", id);
+        final OrderPaymentStatusResponseDTO orderPaymentByOrderId = getOrderPaymentStatusUseCase.getOrderPaymentByOrderId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(orderPaymentByOrderId);
     }
 
 }

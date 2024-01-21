@@ -1,5 +1,6 @@
 package com.guibaarros.fiap.postech.fastfood.application.services;
 
+import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.OrderPaymentStatusResponseDTO;
 import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.OrderResponseDTO;
 import com.guibaarros.fiap.postech.fastfood.application.domain.client.Client;
 import com.guibaarros.fiap.postech.fastfood.application.domain.order.Order;
@@ -8,6 +9,7 @@ import com.guibaarros.fiap.postech.fastfood.application.domain.product.Product;
 import com.guibaarros.fiap.postech.fastfood.application.exceptions.order.OrderNotFoundException;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.ConfirmPaymentUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.CreateOrderUseCase;
+import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.GetOrderPaymentStatusUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.ListQueuedOrderUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.CountOrderBetweenDatePort;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.FindOrderByIdPort;
@@ -29,7 +31,8 @@ import java.util.Optional;
 public class OrderService implements
         CreateOrderUseCase,
         ListQueuedOrderUseCase,
-        ConfirmPaymentUseCase {
+        ConfirmPaymentUseCase,
+        GetOrderPaymentStatusUseCase {
 
     private final SaveOrderPort saveOrderPort;
     private final FindOrderByIdPort findOrderByIdPort;
@@ -46,7 +49,7 @@ public class OrderService implements
         order.identifyClient(client);
         final Order persistedOrder = saveOrderPort.saveOrder(order);
         log.info("order with client created successfully;");
-        return mapEntityToResponseDto(persistedOrder);
+        return mapEntityToOrderResponseDto(persistedOrder);
     }
 
     @Override
@@ -54,7 +57,7 @@ public class OrderService implements
         final Order order = createOrderWithProducts(productIds);
         final Order persistedOrder = saveOrderPort.saveOrder(order);
         log.info("order without client created successfully;");
-        return mapEntityToResponseDto(persistedOrder);
+        return mapEntityToOrderResponseDto(persistedOrder);
     }
 
     private Order createOrderWithProducts(final List<Long> productIds) {
@@ -77,24 +80,20 @@ public class OrderService implements
         if (ordersInPreparation.isEmpty()) {
             throw new OrderNotFoundException("pedidos em preparo não encontrados");
         }
-        return ordersInPreparation.stream().map(this::mapEntityToResponseDto).toList();
+        return ordersInPreparation.stream().map(this::mapEntityToOrderResponseDto).toList();
     }
 
     @Override
     public void confirmPayment(final Long id) {
-        final Optional<Order> optOrder = findOrderByIdPort.findOrderById(id);
-        if (optOrder.isEmpty()) {
-            throw new OrderNotFoundException(id);
-        }
+        final Order order = getOrderById(id);
 
-        final Order order = optOrder.get();
         order.confirmOrderPayment();
         order.sendToPreparation();
         saveOrderPort.saveOrder(order);
         log.info("order payment confirmed; order sent to preparation");
     }
 
-    private OrderResponseDTO mapEntityToResponseDto(final Order order) {
+    private OrderResponseDTO mapEntityToOrderResponseDto(final Order order) {
         final OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
         orderResponseDTO.setId(order.getId());
         orderResponseDTO.setPaymentStatus(order.getPaymentStatus());
@@ -111,5 +110,28 @@ public class OrderService implements
         orderResponseDTO.setWaitingTimeInMinutes(order.getTotalWaitingTimeInMinutes());
         orderResponseDTO.setFormattedNumber(String.format("%03d", order.getNumber()));
         return orderResponseDTO;
+    }
+
+    @Override
+    public OrderPaymentStatusResponseDTO getOrderPaymentByOrderId(final Long orderId) {
+        final Order order = getOrderById(orderId);
+        return mapEntityToOrderPaymentStatusResponseDTO(order);
+    }
+
+    private Order getOrderById(Long id) {
+        final Optional<Order> optOrder = findOrderByIdPort.findOrderById(id);
+        if (optOrder.isEmpty()) {
+            throw new OrderNotFoundException(id);
+        }
+        return optOrder.get();
+    }
+
+    private OrderPaymentStatusResponseDTO mapEntityToOrderPaymentStatusResponseDTO(final Order order) {
+        final OrderPaymentStatusResponseDTO orderPaymentStatusResponseDTO = new OrderPaymentStatusResponseDTO();
+        orderPaymentStatusResponseDTO.setId(order.getId());
+        orderPaymentStatusResponseDTO.setPaymentStatus(order.getPaymentStatus());
+        orderPaymentStatusResponseDTO.setPaymentStatusUpdatedAt(order.getPaymentStatusUpdatedAt());
+        orderPaymentStatusResponseDTO.setIsPaymentApproved(order.getPaymentStatus().isPaymentApproved());
+        return orderPaymentStatusResponseDTO;
     }
 }
