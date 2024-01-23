@@ -6,11 +6,13 @@ import com.guibaarros.fiap.postech.fastfood.application.domain.client.Client;
 import com.guibaarros.fiap.postech.fastfood.application.domain.order.Order;
 import com.guibaarros.fiap.postech.fastfood.application.domain.order.enums.OrderStatus;
 import com.guibaarros.fiap.postech.fastfood.application.domain.product.Product;
+import com.guibaarros.fiap.postech.fastfood.application.exceptions.order.InvalidOrderOperationException;
 import com.guibaarros.fiap.postech.fastfood.application.exceptions.order.OrderNotFoundException;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.ConfirmPaymentUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.CreateOrderUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.GetOrderPaymentStatusUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.ListQueuedOrderUseCase;
+import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.UpdateOrderStatusUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.CountOrderBetweenDatePort;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.FindOrderByIdPort;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.FindOrderInPreparationPort;
@@ -33,7 +35,8 @@ public class OrderService implements
         CreateOrderUseCase,
         ListQueuedOrderUseCase,
         ConfirmPaymentUseCase,
-        GetOrderPaymentStatusUseCase {
+        GetOrderPaymentStatusUseCase,
+        UpdateOrderStatusUseCase {
 
     private final SaveOrderPort saveOrderPort;
     private final FindOrderByIdPort findOrderByIdPort;
@@ -59,20 +62,6 @@ public class OrderService implements
         final Order persistedOrder = saveOrderPort.saveOrder(order);
         log.info("order without client created successfully;");
         return mapEntityToOrderResponseDto(persistedOrder);
-    }
-
-    private Order createOrderWithProducts(final List<Long> productIds) {
-        final List<Product> products = productIds.stream().map(productService::findProductById).toList();
-
-        final int orderQuantityToday = countOrderBetweenDatePort.countOrderBetweenDate(
-                LocalDate.now().atTime(LocalTime.MIN),
-                LocalDate.now().atTime(LocalTime.MAX)
-        );
-
-        final Order order = new Order();
-        order.addProducts(products);
-        order.generateOrderNumber(orderQuantityToday);
-        return order;
     }
 
     @Override
@@ -101,6 +90,45 @@ public class OrderService implements
         log.info("order payment confirmed; order sent to preparation");
     }
 
+    @Override
+    public OrderPaymentStatusResponseDTO getOrderPaymentByOrderId(final Long orderId) {
+        final Order order = getOrderById(orderId);
+        return mapEntityToOrderPaymentStatusResponseDTO(order);
+    }
+
+    @Override
+    public OrderResponseDTO updateOrderStatus(final Long id, final String status) {
+        try {
+            final OrderStatus orderStatus = OrderStatus.valueOf(status);
+            final Order order = getOrderById(id);
+            switch (orderStatus) {
+                case PREPARING -> order.startPreparation();
+                case READY -> order.finishPreparation();
+                case RECEIVED -> order.deliverToClient();
+                case FINISHED -> order.finishOrder();
+                case CANCELLED -> order.cancelOrder();
+                default -> throw new InvalidOrderOperationException("não é possível atualizar o status para " + status);
+            }
+            return mapEntityToOrderResponseDto(saveOrderPort.saveOrder(order));
+        } catch (IllegalArgumentException e) {
+            throw new InvalidOrderOperationException("não existe status para o tipo informado: " + status);
+        }
+    }
+
+    private Order createOrderWithProducts(final List<Long> productIds) {
+        final List<Product> products = productIds.stream().map(productService::findProductById).toList();
+
+        final int orderQuantityToday = countOrderBetweenDatePort.countOrderBetweenDate(
+                LocalDate.now().atTime(LocalTime.MIN),
+                LocalDate.now().atTime(LocalTime.MAX)
+        );
+
+        final Order order = new Order();
+        order.addProducts(products);
+        order.generateOrderNumber(orderQuantityToday);
+        return order;
+    }
+
     private OrderResponseDTO mapEntityToOrderResponseDto(final Order order) {
         final OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
         orderResponseDTO.setId(order.getId());
@@ -118,12 +146,6 @@ public class OrderService implements
         orderResponseDTO.setWaitingTimeInMinutes(order.getTotalWaitingTimeInMinutes());
         orderResponseDTO.setFormattedNumber(String.format("%03d", order.getNumber()));
         return orderResponseDTO;
-    }
-
-    @Override
-    public OrderPaymentStatusResponseDTO getOrderPaymentByOrderId(final Long orderId) {
-        final Order order = getOrderById(orderId);
-        return mapEntityToOrderPaymentStatusResponseDTO(order);
     }
 
     private Order getOrderById(Long id) {

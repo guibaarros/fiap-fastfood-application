@@ -3,6 +3,7 @@ package com.guibaarros.fiap.postech.fastfood.adapters.configuration;
 import com.guibaarros.fiap.postech.fastfood.adapters.dtos.errorhandler.ErrorDTO;
 import com.guibaarros.fiap.postech.fastfood.application.exceptions.client.ClientAlreadyExistsException;
 import com.guibaarros.fiap.postech.fastfood.application.exceptions.client.ClientNotFoundException;
+import com.guibaarros.fiap.postech.fastfood.application.exceptions.order.InvalidOrderOperationException;
 import com.guibaarros.fiap.postech.fastfood.application.exceptions.order.OrderNotFoundException;
 import com.guibaarros.fiap.postech.fastfood.application.exceptions.product.InvalidProductCategoryException;
 import com.guibaarros.fiap.postech.fastfood.application.exceptions.product.ProductAlreadyExistsException;
@@ -45,7 +46,7 @@ public class ControllerExceptionHandler {
     }
 
     @ResponseBody
-    @ExceptionHandler(value = {InvalidProductCategoryException.class})
+    @ExceptionHandler(value = {InvalidProductCategoryException.class, InvalidOrderOperationException.class})
     public ResponseEntity<ErrorDTO> handleInvalidParameterException(final RuntimeException ex) {
         final ErrorDTO errorDTO = new ErrorDTO(ex.getMessage());
         return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);

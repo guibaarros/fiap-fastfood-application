@@ -120,19 +120,43 @@ public class Order {
     }
 
     public void startPreparation() {
+        if (!OrderStatus.AWAITING_PREPARATION.equals(this.status)) {
+            throw new InvalidOrderOperationException(
+                    "o pedido deve estar aguardando preparo antes de iniciar o preparo");
+        }
         this.status = OrderStatus.PREPARING;
     }
 
     public void finishPreparation() {
+        if (!OrderStatus.PREPARING.equals(this.status)) {
+            throw new InvalidOrderOperationException(
+                    "o pedido deve estar sendo preparado antes de ser finalizado");
+        }
         this.status = OrderStatus.READY;
     }
 
+    public void deliverToClient() {
+        if (!OrderStatus.READY.equals(this.status)) {
+            throw new InvalidOrderOperationException(
+                    "o pedido deve estar pronto antes de ser entregue ao cliente");
+        }
+        this.status = OrderStatus.RECEIVED;
+    }
+
     public void finishOrder() {
+        if (!OrderStatus.RECEIVED.equals(this.status)) {
+            throw new InvalidOrderOperationException(
+                    "o pedido deve ter sido retirado pelo cliente antes de ser finalizado");
+        }
         this.status = OrderStatus.FINISHED;
         this.finishedAt = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
     }
 
     public void cancelOrder() {
+        if (OrderStatus.FINISHED.equals(this.status) || OrderStatus.RECEIVED.equals(this.status)) {
+            throw new InvalidOrderOperationException(
+                    "o pedido finalizado ou retirado pelo cliente não pode ser cancelado");
+        }
         this.status = OrderStatus.CANCELLED;
     }
 

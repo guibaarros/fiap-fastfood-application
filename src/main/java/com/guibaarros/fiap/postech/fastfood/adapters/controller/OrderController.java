@@ -4,10 +4,12 @@ import com.guibaarros.fiap.postech.fastfood.adapters.dtos.errorhandler.ErrorDTO;
 import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.OrderPaymentStatusResponseDTO;
 import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.OrderRequestDTO;
 import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.OrderResponseDTO;
+import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.UpdateOrderStatusDTO;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.ConfirmPaymentUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.CreateOrderUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.GetOrderPaymentStatusUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.ListQueuedOrderUseCase;
+import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.UpdateOrderStatusUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,6 +46,7 @@ public class OrderController {
     private final ListQueuedOrderUseCase listQueuedOrderUseCase;
     private final ConfirmPaymentUseCase confirmPaymentUseCase;
     private final GetOrderPaymentStatusUseCase getOrderPaymentStatusUseCase;
+    private final UpdateOrderStatusUseCase updateOrderStatusUseCase;
 
     @Operation(summary = "Checkout do pedido")
     @ApiResponses({
@@ -107,11 +111,20 @@ public class OrderController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorDTO.class))})
     })
-    @GetMapping(value="{id}/payment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "{id}/payment", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OrderPaymentStatusResponseDTO> findOrderPaymentStatus(@PathVariable("id") final Long id) {
         log.info("finding order payment status, id={}", id);
         final OrderPaymentStatusResponseDTO orderPaymentByOrderId = getOrderPaymentStatusUseCase.getOrderPaymentByOrderId(id);
         return ResponseEntity.status(HttpStatus.OK).body(orderPaymentByOrderId);
+    }
+
+    @PatchMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<OrderResponseDTO> updatePaymentStatus(
+            @PathVariable("id") final Long id,
+            @RequestBody UpdateOrderStatusDTO updateOrderStatusDTO) {
+        final OrderResponseDTO orderResponseDTO = updateOrderStatusUseCase
+                .updateOrderStatus(id, updateOrderStatusDTO.getStatus());
+        return ResponseEntity.ok(orderResponseDTO);
     }
 
     private OrderResponseDTO createOrderUseCase(final OrderRequestDTO orderRequestDTO) {
