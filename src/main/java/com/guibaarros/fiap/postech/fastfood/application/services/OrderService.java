@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -76,10 +77,17 @@ public class OrderService implements
 
     @Override
     public List<OrderResponseDTO> listQueuedOrderUseCase() {
-        final List<Order> ordersInPreparation = findOrderInPreparationPort.findOrderByStatusIn(OrderStatus.getInPreparationStatuses());
+        final List<Order> ordersInPreparation = findOrderInPreparationPort
+                .findOrderByStatusIn(OrderStatus.getInPreparationStatuses());
         if (ordersInPreparation.isEmpty()) {
             throw new OrderNotFoundException("pedidos em preparo não encontrados");
         }
+
+        final Comparator<Order> compareStatusPresentationOrder = Comparator.comparing(order -> order.getStatus().getPresentationOrder());
+        final Comparator<Order> compareCreatedAt = Comparator.comparing(Order::getCreatedAt).reversed();
+
+        ordersInPreparation.sort(compareStatusPresentationOrder.thenComparing(compareCreatedAt));
+
         return ordersInPreparation.stream().map(this::mapEntityToOrderResponseDto).toList();
     }
 

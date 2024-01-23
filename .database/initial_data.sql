@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS public.tb_order
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
     CONSTRAINT tb_order_payment_status_check CHECK (payment_status::text = ANY (ARRAY['AWAITING_PAYMENT'::character varying, 'PAID'::character varying, 'CANCELLED'::character varying]::text[])),
-    CONSTRAINT tb_order_status_check CHECK (status::text = ANY (ARRAY['AWAITING_PAYMENT'::character varying, 'AWAITING_PREPARATION'::character varying, 'PREPARING'::character varying, 'READY'::character varying, 'FINISHED'::character varying, 'CANCELLED'::character varying]::text[]))
+    CONSTRAINT tb_order_status_check CHECK (status::text = ANY (ARRAY['AWAITING_PAYMENT'::character varying, 'AWAITING_PREPARATION'::character varying, 'PREPARING'::character varying, 'READY'::character varying, 'RECEIVED'::character varying::text, 'FINISHED'::character varying, 'CANCELLED'::character varying]::text[]))
 );
 
 CREATE TABLE IF NOT EXISTS public.tb_product

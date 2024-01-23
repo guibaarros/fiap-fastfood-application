@@ -61,16 +61,6 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(orderResponseDTO);
     }
 
-    private OrderResponseDTO createOrderUseCase(final OrderRequestDTO orderRequestDTO) {
-        if (Objects.isNull(orderRequestDTO.getClientId())) {
-            log.info("create new order without client");
-            return createOrderUseCase.createOrder(orderRequestDTO.getProductIds());
-        }
-
-        log.info("create new order with client; orderRequestDTO.getClientId()={}", orderRequestDTO.getClientId());
-        return createOrderUseCase.createOrder(orderRequestDTO.getClientId(), orderRequestDTO.getProductIds());
-    }
-
     @Operation(summary = "Busca pedidos em preparação")
     @ApiResponses({
             @ApiResponse(responseCode = "200",
@@ -118,10 +108,20 @@ public class OrderController {
                             schema = @Schema(implementation = ErrorDTO.class))})
     })
     @GetMapping(value="{id}/payment", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OrderPaymentStatusResponseDTO> findOrderInPreparation(@PathVariable("id") final Long id) {
+    public ResponseEntity<OrderPaymentStatusResponseDTO> findOrderPaymentStatus(@PathVariable("id") final Long id) {
         log.info("finding order payment status, id={}", id);
         final OrderPaymentStatusResponseDTO orderPaymentByOrderId = getOrderPaymentStatusUseCase.getOrderPaymentByOrderId(id);
         return ResponseEntity.status(HttpStatus.OK).body(orderPaymentByOrderId);
+    }
+
+    private OrderResponseDTO createOrderUseCase(final OrderRequestDTO orderRequestDTO) {
+        if (Objects.isNull(orderRequestDTO.getClientId())) {
+            log.info("create new order without client");
+            return createOrderUseCase.createOrder(orderRequestDTO.getProductIds());
+        }
+
+        log.info("create new order with client; orderRequestDTO.getClientId()={}", orderRequestDTO.getClientId());
+        return createOrderUseCase.createOrder(orderRequestDTO.getClientId(), orderRequestDTO.getProductIds());
     }
 
 }
