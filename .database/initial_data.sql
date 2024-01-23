@@ -52,6 +52,8 @@ CREATE TABLE IF NOT EXISTS public.tb_order
     total_amount numeric(38,2),
     updated_at timestamp(6) without time zone,
     payment_status_updated_at timestamp(6) without time zone,
+    payment_qr_code_data character varying(255) COLLATE pg_catalog."default",
+    external_id bigint,
     client_id bigint,
     CONSTRAINT tb_order_pkey PRIMARY KEY (order_id),
     CONSTRAINT tk_tb_order_client FOREIGN KEY (client_id)

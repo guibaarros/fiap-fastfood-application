@@ -2,6 +2,7 @@ package com.guibaarros.fiap.postech.fastfood.application.services;
 
 import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.OrderPaymentStatusResponseDTO;
 import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.OrderResponseDTO;
+import com.guibaarros.fiap.postech.fastfood.adapters.httpclient.dto.PaymentServiceResponseDTO;
 import com.guibaarros.fiap.postech.fastfood.application.domain.client.Client;
 import com.guibaarros.fiap.postech.fastfood.application.domain.order.Order;
 import com.guibaarros.fiap.postech.fastfood.application.domain.order.enums.OrderStatus;
@@ -14,6 +15,7 @@ import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.GetO
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.ListQueuedOrderUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.UpdateOrderStatusUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.CountOrderBetweenDatePort;
+import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.CreatePaymentServiceOrderPort;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.FindOrderByIdPort;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.FindOrderInPreparationPort;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.SaveOrderPort;
@@ -42,6 +44,7 @@ public class OrderService implements
     private final FindOrderByIdPort findOrderByIdPort;
     private final FindOrderInPreparationPort findOrderInPreparationPort;
     private final CountOrderBetweenDatePort countOrderBetweenDatePort;
+    private final CreatePaymentServiceOrderPort createPaymentServiceOrderPort;
 
     private final ClientService clientService;
     private final ProductService productService;
@@ -51,6 +54,7 @@ public class OrderService implements
         final Order order = createOrderWithProducts(productIds);
         final Client client = clientService.findClientById(clientId);
         order.identifyClient(client);
+        createPaymentServiceOrder(order);
         final Order persistedOrder = saveOrderPort.saveOrder(order);
         log.info("order with client created successfully;");
         return mapEntityToOrderResponseDto(persistedOrder);
@@ -59,6 +63,7 @@ public class OrderService implements
     @Override
     public OrderResponseDTO createOrder(final List<Long> productIds) {
         final Order order = createOrderWithProducts(productIds);
+        createPaymentServiceOrder(order);
         final Order persistedOrder = saveOrderPort.saveOrder(order);
         log.info("order without client created successfully;");
         return mapEntityToOrderResponseDto(persistedOrder);
@@ -145,6 +150,8 @@ public class OrderService implements
         orderResponseDTO.setFinishedAt(order.getFinishedAt());
         orderResponseDTO.setWaitingTimeInMinutes(order.getTotalWaitingTimeInMinutes());
         orderResponseDTO.setFormattedNumber(String.format("%03d", order.getNumber()));
+        orderResponseDTO.setPaymentQrCodeData(order.getPaymentQrCodeData());
+        orderResponseDTO.setExternalId(orderResponseDTO.getExternalId());
         return orderResponseDTO;
     }
 
@@ -163,5 +170,12 @@ public class OrderService implements
         orderPaymentStatusResponseDTO.setPaymentStatusUpdatedAt(order.getPaymentStatusUpdatedAt());
         orderPaymentStatusResponseDTO.setIsPaymentApproved(order.getPaymentStatus().isPaymentApproved());
         return orderPaymentStatusResponseDTO;
+    }
+
+    private void createPaymentServiceOrder(final Order order) {
+        // Integração fake com o MP
+        final PaymentServiceResponseDTO paymentServiceOrder =
+                createPaymentServiceOrderPort.createPaymentServiceOrder(order.getId(), order.getTotalAmount());
+        order.updatePaymentServiceIntegrationData(paymentServiceOrder.getQrData(), paymentServiceOrder.getExternalId());
     }
 }

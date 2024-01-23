@@ -76,6 +76,12 @@ public class Order {
     @Column
     private LocalDateTime paymentStatusUpdatedAt;
 
+    @Column
+    private String paymentQrCodeData;
+
+    @Column
+    private Long externalId;
+
     @PrePersist
     private void prePersist() {
         this.status = OrderStatus.AWAITING_PAYMENT;
@@ -167,6 +173,11 @@ public class Order {
 
     public Long getTotalWaitingTimeInMinutes() {
         return getTotalWaitingTime().toMinutes();
+    }
+
+    public void updatePaymentServiceIntegrationData(final String qrCodeData, final Long externalId) {
+        this.paymentQrCodeData = qrCodeData;
+        this.externalId = externalId;
     }
 
     private Duration getTotalWaitingTime() {

@@ -118,6 +118,21 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orderPaymentByOrderId);
     }
 
+    @Operation(summary = "atualiza o status do pagamento")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Pedido atualizado",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = OrderResponseDTO.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "Nenhum pedido encontrado",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorDTO.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Falha ao atualizar o status do pedido",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorDTO.class))})
+    })
     @PatchMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OrderResponseDTO> updatePaymentStatus(
             @PathVariable("id") final Long id,

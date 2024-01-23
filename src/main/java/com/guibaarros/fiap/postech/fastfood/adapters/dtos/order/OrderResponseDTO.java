@@ -29,5 +29,7 @@ public class OrderResponseDTO {
     private LocalDateTime updatedAt;
     private Long waitingTimeInMinutes;
     private String formattedNumber;
+    private String paymentQrCodeData;
+    private Long externalId;
 
 }
