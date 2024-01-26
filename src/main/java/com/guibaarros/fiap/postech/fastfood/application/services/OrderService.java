@@ -5,6 +5,7 @@ import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.OrderResponseDTO
 import com.guibaarros.fiap.postech.fastfood.adapters.httpclient.dto.PaymentServiceResponseDTO;
 import com.guibaarros.fiap.postech.fastfood.application.domain.client.Client;
 import com.guibaarros.fiap.postech.fastfood.application.domain.order.Order;
+import com.guibaarros.fiap.postech.fastfood.application.domain.order.enums.OrderPaymentStatus;
 import com.guibaarros.fiap.postech.fastfood.application.domain.order.enums.OrderStatus;
 import com.guibaarros.fiap.postech.fastfood.application.domain.product.Product;
 import com.guibaarros.fiap.postech.fastfood.application.exceptions.order.InvalidOrderOperationException;
@@ -16,6 +17,7 @@ import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.List
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.UpdateOrderStatusUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.CountOrderBetweenDatePort;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.CreatePaymentServiceOrderPort;
+import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.FindOrderByExternalIdPort;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.FindOrderByIdPort;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.FindOrderInPreparationPort;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.SaveOrderPort;
@@ -42,6 +44,7 @@ public class OrderService implements
 
     private final SaveOrderPort saveOrderPort;
     private final FindOrderByIdPort findOrderByIdPort;
+    private final FindOrderByExternalIdPort findOrderByExternalIdPort;
     private final FindOrderInPreparationPort findOrderInPreparationPort;
     private final CountOrderBetweenDatePort countOrderBetweenDatePort;
     private final CreatePaymentServiceOrderPort createPaymentServiceOrderPort;
@@ -54,8 +57,8 @@ public class OrderService implements
         final Order order = createOrderWithProducts(productIds);
         final Client client = clientService.findClientById(clientId);
         order.identifyClient(client);
-        createPaymentServiceOrder(order);
-        final Order persistedOrder = saveOrderPort.saveOrder(order);
+        final Order persistedOrder = createPaymentServiceOrder(saveOrderPort.saveOrder(order));
+
         log.info("order with client created successfully;");
         return mapEntityToOrderResponseDto(persistedOrder);
     }
@@ -63,8 +66,7 @@ public class OrderService implements
     @Override
     public OrderResponseDTO createOrder(final List<Long> productIds) {
         final Order order = createOrderWithProducts(productIds);
-        createPaymentServiceOrder(order);
-        final Order persistedOrder = saveOrderPort.saveOrder(order);
+        final Order persistedOrder = createPaymentServiceOrder(saveOrderPort.saveOrder(order));
         log.info("order without client created successfully;");
         return mapEntityToOrderResponseDto(persistedOrder);
     }
@@ -86,8 +88,20 @@ public class OrderService implements
     }
 
     @Override
-    public void confirmPayment(final Long id) {
-        final Order order = getOrderById(id);
+    public void confirmPayment(final Long externalId, final String status) {
+        final Optional<Order> optionalOrder = findOrderByExternalIdPort.findOrderByExternalId(externalId);
+        if (optionalOrder.isEmpty()) {
+            throw new OrderNotFoundException("externalId", externalId.toString());
+        }
+        try {
+            if (!OrderPaymentStatus.valueOf(status).isPaymentApproved()) {
+                throw new InvalidOrderOperationException("pagamento não foi aprovado e não pode ser atualizado");
+            }
+        } catch (IllegalArgumentException e) {
+            throw new InvalidOrderOperationException("não existe status de pagamento para o tipo informado: " + status);
+        }
+
+        final Order order = optionalOrder.get();
 
         order.confirmOrderPayment();
         order.sendToPreparation();
@@ -151,7 +165,7 @@ public class OrderService implements
         orderResponseDTO.setWaitingTimeInMinutes(order.getTotalWaitingTimeInMinutes());
         orderResponseDTO.setFormattedNumber(String.format("%03d", order.getNumber()));
         orderResponseDTO.setPaymentQrCodeData(order.getPaymentQrCodeData());
-        orderResponseDTO.setExternalId(orderResponseDTO.getExternalId());
+        orderResponseDTO.setExternalId(order.getExternalId());
         return orderResponseDTO;
     }
 
@@ -172,10 +186,13 @@ public class OrderService implements
         return orderPaymentStatusResponseDTO;
     }
 
-    private void createPaymentServiceOrder(final Order order) {
+    private Order createPaymentServiceOrder(final Order order) {
         // Integração fake com o MP
         final PaymentServiceResponseDTO paymentServiceOrder =
                 createPaymentServiceOrderPort.createPaymentServiceOrder(order.getId(), order.getTotalAmount());
-        order.updatePaymentServiceIntegrationData(paymentServiceOrder.getQrData(), paymentServiceOrder.getExternalId());
+        order.updatePaymentServiceIntegrationData(
+                paymentServiceOrder.getQrData(),
+                paymentServiceOrder.getExternalId());
+        return saveOrderPort.saveOrder(order);
     }
 }

@@ -5,7 +5,6 @@ import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.OrderPaymentStat
 import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.OrderRequestDTO;
 import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.OrderResponseDTO;
 import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.UpdateOrderStatusDTO;
-import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.ConfirmPaymentUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.CreateOrderUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.GetOrderPaymentStatusUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.ListQueuedOrderUseCase;
@@ -44,7 +43,6 @@ public class OrderController {
 
     private final CreateOrderUseCase createOrderUseCase;
     private final ListQueuedOrderUseCase listQueuedOrderUseCase;
-    private final ConfirmPaymentUseCase confirmPaymentUseCase;
     private final GetOrderPaymentStatusUseCase getOrderPaymentStatusUseCase;
     private final UpdateOrderStatusUseCase updateOrderStatusUseCase;
 
@@ -84,21 +82,6 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(productResponseDTOList);
     }
 
-    @Operation(summary = "Confirma pagamento do pedido")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200",
-                    description = "Pagamento do pedido confirmado"),
-            @ApiResponse(responseCode = "404",
-                    description = "Nenhum pedido aguardando pagamento encontrado",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorDTO.class))})
-    })
-    @PostMapping(value = "{id}/payment", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> confirmOrderPayment(@PathVariable("id") final Long id) {
-        log.info("confirmOrderPayment; orderId={}", id);
-        confirmPaymentUseCase.confirmPayment(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
 
     @Operation(summary = "Busca status do pagamento do pedido por Id do pedido")
     @ApiResponses({

@@ -3,6 +3,7 @@ package com.guibaarros.fiap.postech.fastfood.adapters.persistence.order;
 import com.guibaarros.fiap.postech.fastfood.application.domain.order.Order;
 import com.guibaarros.fiap.postech.fastfood.application.domain.order.enums.OrderStatus;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.CountOrderBetweenDatePort;
+import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.FindOrderByExternalIdPort;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.FindOrderByIdPort;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.FindOrderInPreparationPort;
 import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.order.SaveOrderPort;
@@ -19,7 +20,8 @@ public class OrderRepository implements
         SaveOrderPort,
         FindOrderByIdPort,
         FindOrderInPreparationPort,
-        CountOrderBetweenDatePort {
+        CountOrderBetweenDatePort,
+        FindOrderByExternalIdPort {
 
     private final OrderJpaRepository repository;
 
@@ -41,5 +43,10 @@ public class OrderRepository implements
     @Override
     public int countOrderBetweenDate(final LocalDateTime initialDate, final LocalDateTime finalDate) {
         return repository.countByCreatedAtBetween(initialDate, finalDate);
+    }
+
+    @Override
+    public Optional<Order> findOrderByExternalId(final Long externalId) {
+        return repository.findOrderByExternalId(externalId);
     }
 }

@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -99,7 +100,10 @@ public class Order {
     }
 
     public void addProducts(final List<Product> products) {
-        this.products = products;
+        if (Objects.isNull(this.products) || !this.products.isEmpty()) {
+            this.products = new ArrayList<>();
+        }
+        this.products.addAll(products);
         this.totalAmount = products.stream()
                 .map(Product::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);

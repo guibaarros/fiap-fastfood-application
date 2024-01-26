@@ -104,19 +104,19 @@ class OrderControllerTest {
         Assertions.assertEquals(expectedResponseEntity, actualResponseEntity);
     }
 
-    @Test
-    void confirmOrderPayment() {
-        final Long id = 1L;
-
-        final ResponseEntity<Void> expectedResponseEntity = ResponseEntity.status(HttpStatus.OK).build();
-
-        Mockito.doNothing()
-                .when(confirmPaymentUseCase).confirmPayment(Mockito.eq(id));
-
-        final ResponseEntity<Void> actualResponseEntity = orderController.confirmOrderPayment(id);
-
-        Assertions.assertEquals(expectedResponseEntity, actualResponseEntity);
-        Mockito.verify(confirmPaymentUseCase, Mockito.times(1))
-                .confirmPayment(Mockito.eq(id));
-    }
+//    @Test
+//    void confirmOrderPayment() {
+//        final Long id = 1L;
+//
+//        final ResponseEntity<Void> expectedResponseEntity = ResponseEntity.status(HttpStatus.OK).build();
+//
+//        Mockito.doNothing()
+//                .when(confirmPaymentUseCase).confirmPayment(Mockito.eq(id));
+//
+//        final ResponseEntity<Void> actualResponseEntity = orderController.confirmOrderPayment(id);
+//
+//        Assertions.assertEquals(expectedResponseEntity, actualResponseEntity);
+//        Mockito.verify(confirmPaymentUseCase, Mockito.times(1))
+//                .confirmPayment(Mockito.eq(id));
+//    }
 }

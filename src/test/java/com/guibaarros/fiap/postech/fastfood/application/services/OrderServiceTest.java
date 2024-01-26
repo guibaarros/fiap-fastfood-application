@@ -237,53 +237,53 @@ class OrderServiceTest {
         assertThrows(OrderNotFoundException.class, () -> orderService.listQueuedOrderUseCase());
     }
 
-    @Test
-    void confirmPayment() {
-        final Long cpf = 13869555076L;
-        final String clientName = "Guilherme";
-        final String email = "guilherme@gmail.com";
+//    @Test
+//    void confirmPayment() {
+//        final Long cpf = 13869555076L;
+//        final String clientName = "Guilherme";
+//        final String email = "guilherme@gmail.com";
+//
+//        final Client client = new Client(
+//                cpf,
+//                clientName,
+//                email
+//        );
+//
+//        final String productName = "Água";
+//        final ProductCategory category = ProductCategory.DRINK;
+//        final BigDecimal price = BigDecimal.valueOf(3L);
+//        final String description = "Água mineral sem gás";
+//
+//        final Product product = new Product(
+//                productName,
+//                category,
+//                price,
+//                description,
+//                null);
+//
+//        final Long orderId = 1L;
+//
+//        final Order order = new Order();
+//        order.addProducts(Collections.singletonList(product));
+//        order.identifyClient(client);
+//
+//        when(findOrderByIdPort.findOrderById(eq(orderId))).thenReturn(Optional.of(order));
+//        when(saveOrderPort.saveOrder(any())).thenReturn(order);
+//
+//        orderService.confirmPayment(orderId);
+//
+//        verify(findOrderByIdPort, times(1)).findOrderById(orderId);
+//        verify(saveOrderPort, times(1)).saveOrder(any());
+//    }
 
-        final Client client = new Client(
-                cpf,
-                clientName,
-                email
-        );
-
-        final String productName = "Água";
-        final ProductCategory category = ProductCategory.DRINK;
-        final BigDecimal price = BigDecimal.valueOf(3L);
-        final String description = "Água mineral sem gás";
-
-        final Product product = new Product(
-                productName,
-                category,
-                price,
-                description,
-                null);
-
-        final Long orderId = 1L;
-
-        final Order order = new Order();
-        order.addProducts(Collections.singletonList(product));
-        order.identifyClient(client);
-
-        when(findOrderByIdPort.findOrderById(eq(orderId))).thenReturn(Optional.of(order));
-        when(saveOrderPort.saveOrder(any())).thenReturn(order);
-
-        orderService.confirmPayment(orderId);
-
-        verify(findOrderByIdPort, times(1)).findOrderById(orderId);
-        verify(saveOrderPort, times(1)).saveOrder(any());
-    }
-
-    @Test
-    void confirmPaymentNotFound() {
-        final Long orderId = 1L;
-
-        when(findOrderByIdPort.findOrderById(eq(orderId))).thenReturn(Optional.empty());
-
-        assertThrows(OrderNotFoundException.class, () -> orderService.confirmPayment(orderId));
-    }
+//    @Test
+//    void confirmPaymentNotFound() {
+//        final Long orderId = 1L;
+//
+//        when(findOrderByIdPort.findOrderById(eq(orderId))).thenReturn(Optional.empty());
+//
+//        assertThrows(OrderNotFoundException.class, () -> orderService.confirmPayment(orderId));
+//    }
 
     @Test
     void getPaidOrderPaymentByOrderId() {

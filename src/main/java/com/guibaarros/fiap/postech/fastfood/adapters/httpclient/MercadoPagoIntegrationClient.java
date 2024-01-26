@@ -19,7 +19,7 @@ public class MercadoPagoIntegrationClient implements CreatePaymentServiceOrderPo
     @Override
     public PaymentServiceResponseDTO createPaymentServiceOrder(final Long id, final BigDecimal totalAmount) {
         final PaymentServiceResponseDTO paymentServiceResponseDTO = new PaymentServiceResponseDTO();
-        paymentServiceResponseDTO.setExternalId(new Random().nextLong(100000));
+        paymentServiceResponseDTO.setExternalId(id);
         paymentServiceResponseDTO.setQrData(
                 "00020101021243650016COM.MERCADOLIBRE02013063638f1192a-5fd1-4180-a180-8bcae3556bc35204000053039865802" +
                 "BR5925IZABEL AAAA DE MELO6007BARUERI62070503***63040B6D");
