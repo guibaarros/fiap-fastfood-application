@@ -101,7 +101,7 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orderPaymentByOrderId);
     }
 
-    @Operation(summary = "atualiza o status do pagamento")
+    @Operation(summary = "Atualiza o status do pedido")
     @ApiResponses({
             @ApiResponse(responseCode = "200",
                     description = "Pedido atualizado",
@@ -117,7 +117,7 @@ public class OrderController {
                             schema = @Schema(implementation = ErrorDTO.class))})
     })
     @PatchMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OrderResponseDTO> updatePaymentStatus(
+    public ResponseEntity<OrderResponseDTO> updateOrderStatus(
             @PathVariable("id") final Long id,
             @RequestBody UpdateOrderStatusDTO updateOrderStatusDTO) {
         final OrderResponseDTO orderResponseDTO = updateOrderStatusUseCase

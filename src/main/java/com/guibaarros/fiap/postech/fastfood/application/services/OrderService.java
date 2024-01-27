@@ -80,7 +80,7 @@ public class OrderService implements
         }
 
         final Comparator<Order> compareStatusPresentationOrder = Comparator.comparing(order -> order.getStatus().getPresentationOrder());
-        final Comparator<Order> compareCreatedAt = Comparator.comparing(Order::getCreatedAt).reversed();
+        final Comparator<Order> compareCreatedAt = Comparator.comparing(Order::getCreatedAt);
 
         ordersInPreparation.sort(compareStatusPresentationOrder.thenComparing(compareCreatedAt));
 
