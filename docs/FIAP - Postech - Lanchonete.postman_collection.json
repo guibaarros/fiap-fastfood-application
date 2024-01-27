@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "92b2379c-6747-4fc1-b31d-65f2d0d4dfb9",
+		"_postman_id": "c6134794-176a-4fbc-b4b8-14a4a6fdfacd",
 		"name": "FIAP - Postech - Lanchonete",
-		"description": "Collection com a configuração para utilização dos endpoins desenvolvidos para o Tech Challenge - FIAP - Lanchonete.\n\nA Collection possui os folders:\n\n- APIs: Configuração básica para utilização dos endpoints de:\n    \n    - Produto;\n        \n    - Cliente;\n        \n    - Pedido;\n        \n- Fluxo de Testes - Geral: Ordem de execução dos endpoins para um teste geral das funcionalidades do sistema:\n    \n    - Cadastro, busca, atualização e exclusão de produtos;\n        \n    - Cadastro de Cliente;\n        \n    - Criação e confirmação de pagamento de um pedido com cliente identificado;\n        \n    - Criação e confirmação de pagamento de um pedido sem cliente identificado;\n        \n    - Listagem dos pedidos em preparo;",
+		"description": "Collection com a configuração para utilização dos endpoins desenvolvidos para o Tech Challenge - FIAP - Lanchonete.\n\nA Collection possui os folders:\n\n- APIs: Configuração básica para utilização dos endpoints de:\n    \n    - Produto;\n        - Criação\n        - Consulta\n        - Atualização\n        - Exclusão\n    - Cliente;\n        - Criação\n        - Consulta\n        - Atualização\n        - Exclusão\n    - Pedido;\n        - Consulta dos pedidos em preparação\n        - Consulta do status do pagamento do pedido\n        - Criação de um pedido\n        - Atualização do status do pedido\n    - Webhook Fake de confirmação de Pagamento do MercadoPago;\n        \n        - Confirmação do pagamento por id externo\n            \n- Fluxo de Testes: Ordem de execução dos endpoins para um teste geral das funcionalidades do sistema:\n    - Cadastro, busca, atualização e exclusão de produtos;\n    - Cadastro de Cliente;\n    - Criação e confirmação de pagamento de um pedido com cliente identificado;\n    - Criação e confirmação de pagamento de um pedido sem cliente identificado;\n    - Confirmação do pagamento através do Webhook Fake;\n    - Consulta do status do pagamento do pedido;\n    - Atualização do status do pedido;\n    - Listagem dos pedidos em preparo;",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "13086204"
 	},
@@ -14,7 +14,7 @@
 					"name": "Produto",
 					"item": [
 						{
-							"name": "POST - Cadastrar Produto - Lanche",
+							"name": "POST - Cadastrar Produto",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -23,7 +23,7 @@
 									"formdata": [
 										{
 											"key": "body",
-											"value": "{\n  \"name\": \"X-Bacon\",\n  \"category\": \"SNACK\",\n  \"price\": 12,\n  \"description\": \"X-Bacon clássico\"\n}",
+											"value": "{\n  \"name\": \"<nome do produto>\",\n  \"category\": \"<tipo do produto>\",\n  \"price\": <preço do produto>,\n  \"description\": \"<descrição do produto>\"\n}",
 											"type": "text"
 										},
 										{
@@ -46,115 +46,163 @@
 									]
 								}
 							},
-							"response": []
-						},
-						{
-							"name": "POST - Cadastrar Produto - Acompanhamento",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "body",
-											"value": "{\n  \"name\": \"Fritas com Cheddar\",\n  \"category\": \"SIDE\",\n  \"price\": 12,\n  \"description\": \"Porção de Batata Frita com molho Cheddar\"\n}",
-											"type": "text"
+							"response": [
+								{
+									"name": "POST - Cadastrar Produto - Lanche",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "body",
+													"value": "{\n  \"name\": \"X-Bacon\",\n  \"category\": \"SNACK\",\n  \"price\": 12,\n  \"description\": \"X-Bacon clássico\"\n}",
+													"type": "text"
+												},
+												{
+													"key": "file",
+													"type": "file",
+													"src": "/C:/development/projects/fastfood-fiap-postech/.picture/hotdog.png",
+													"disabled": true
+												}
+											]
 										},
-										{
-											"key": "file",
-											"type": "file",
-											"src": [],
-											"disabled": true
+										"url": {
+											"raw": "http://localhost:8085/product",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"product"
+											]
 										}
-									]
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
 								},
-								"url": {
-									"raw": "http://localhost:8085/product",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8085",
-									"path": [
-										"product"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST - Cadastrar Produto - Bebida",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "body",
-											"value": "{\n  \"name\": \"Fanta Laranja\",\n  \"category\": \"DRINK\",\n  \"price\": 4,\n  \"description\": \"Fanta Laranja 200ml\"\n}",
-											"type": "text"
+								{
+									"name": "POST - Cadastrar Produto - Acompanhamento",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "body",
+													"value": "{\n  \"name\": \"Fritas com Cheddar\",\n  \"category\": \"SIDE\",\n  \"price\": 12,\n  \"description\": \"Porção de Batata Frita com molho Cheddar\"\n}",
+													"type": "text"
+												},
+												{
+													"key": "file",
+													"type": "file",
+													"src": "/C:/development/projects/fastfood-fiap-postech/.picture/hotdog.png",
+													"disabled": true
+												}
+											]
 										},
-										{
-											"key": "file",
-											"type": "file",
-											"src": [],
-											"disabled": true
+										"url": {
+											"raw": "http://localhost:8085/product",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"product"
+											]
 										}
-									]
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
 								},
-								"url": {
-									"raw": "http://localhost:8085/product",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8085",
-									"path": [
-										"product"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST - Cadastrar Produto - Sobremesa",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "body",
-											"value": "{\n  \"name\": \"Pudim de Chocolate\",\n  \"category\": \"DESSERT\",\n  \"price\": 6,\n  \"description\": \"Pudim de Chocolate\"\n}",
-											"type": "text"
+								{
+									"name": "POST - Cadastrar Produto - Bebida",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "body",
+													"value": "{\n  \"name\": \"Fanta Laranja\",\n  \"category\": \"DRINK\",\n  \"price\": 4,\n  \"description\": \"Fanta Laranja 200ml\"\n}",
+													"type": "text"
+												},
+												{
+													"key": "file",
+													"type": "file",
+													"src": "/C:/development/projects/fastfood-fiap-postech/.picture/hotdog.png",
+													"disabled": true
+												}
+											]
 										},
-										{
-											"key": "file",
-											"type": "file",
-											"src": [],
-											"disabled": true
+										"url": {
+											"raw": "http://localhost:8085/product",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"product"
+											]
 										}
-									]
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
 								},
-								"url": {
-									"raw": "http://localhost:8085/product",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8085",
-									"path": [
-										"product"
-									]
+								{
+									"name": "POST - Cadastrar Produto - Sobremesa",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "body",
+													"value": "{\n  \"name\": \"Pudim de Chocolate\",\n  \"category\": \"DESSERT\",\n  \"price\": 6,\n  \"description\": \"Pudim de Chocolate\"\n}",
+													"type": "text"
+												},
+												{
+													"key": "file",
+													"type": "file",
+													"src": "/C:/development/projects/fastfood-fiap-postech/.picture/hotdog.png",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:8085/product",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"product"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
 								}
-							},
-							"response": []
+							]
 						},
 						{
-							"name": "PUT - Atualizar Produto (HotDog para HotDog Duplo)",
+							"name": "PUT - Atualizar Produto",
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -163,7 +211,7 @@
 									"formdata": [
 										{
 											"key": "body",
-											"value": "{\n  \"name\": \"Hot-Dog Duplo\",\n  \"category\": \"SNACK\",\n  \"price\": 14,\n  \"description\": \"Hot-Dog Duplo\"\n}",
+											"value": "{\n  \"name\": \"<nome do produto>\",\n  \"category\": \"<tipo do produto>\",\n  \"price\": <preço do produto>,\n  \"description\": \"<descrição do produto>\"\n}",
 											"type": "text"
 										},
 										{
@@ -187,15 +235,55 @@
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "PUT - Atualizar Produto (HotDog para HotDog Duplo)",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "body",
+													"value": "{\n  \"name\": \"Hot-Dog Duplo\",\n  \"category\": \"SNACK\",\n  \"price\": 14,\n  \"description\": \"Hot-Dog Duplo\"\n}",
+													"type": "text"
+												},
+												{
+													"key": "file",
+													"type": "file",
+													"src": [],
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:8085/product/3",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"product",
+												"3"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
 						},
 						{
-							"name": "GET - Busca produtos por categoria - Lanche",
+							"name": "GET - Busca produtos por categoria",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8085/product?category=SNACK",
+									"raw": "http://localhost:8085/product?category=<categoria>",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -207,95 +295,133 @@
 									"query": [
 										{
 											"key": "category",
-											"value": "SNACK"
+											"value": "<categoria>"
 										}
 									]
 								}
 							},
-							"response": []
-						},
-						{
-							"name": "GET - Busca produtos por categoria - Acompanhamento",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8085/product?category=SIDE",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8085",
-									"path": [
-										"product"
-									],
-									"query": [
-										{
-											"key": "category",
-											"value": "SIDE"
+							"response": [
+								{
+									"name": "GET - Busca produtos por categoria - Lanche",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8085/product?category=SNACK",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"product"
+											],
+											"query": [
+												{
+													"key": "category",
+													"value": "SNACK"
+												}
+											]
 										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "GET - Busca produtos por categoria - Bebida",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8085/product?category=DRINK",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8085",
-									"path": [
-										"product"
-									],
-									"query": [
-										{
-											"key": "category",
-											"value": "DRINK"
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "GET - Busca produtos por categoria - Acompanhamento",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8085/product?category=SIDE",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"product"
+											],
+											"query": [
+												{
+													"key": "category",
+													"value": "SIDE"
+												}
+											]
 										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "GET - Busca produtos por categoria - Sobremesa",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8085/product?category=DESSERT",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8085",
-									"path": [
-										"product"
-									],
-									"query": [
-										{
-											"key": "category",
-											"value": "DESSERT"
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "GET - Busca produtos por categoria - Bebida",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8085/product?category=DRINK",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"product"
+											],
+											"query": [
+												{
+													"key": "category",
+													"value": "DRINK"
+												}
+											]
 										}
-									]
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "GET - Busca produtos por categoria - Lanche",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8085/product?category=DESSERT",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"product"
+											],
+											"query": [
+												{
+													"key": "category",
+													"value": "DESSERT"
+												}
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
 								}
-							},
-							"response": []
+							]
 						},
 						{
-							"name": "DELETE - Exclui um Produto (Fanta Laranja)",
+							"name": "DELETE - Exclui um Produto",
 							"request": {
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8085/product/14",
+									"raw": "http://localhost:8085/product/<id_do_produto>",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -303,11 +429,35 @@
 									"port": "8085",
 									"path": [
 										"product",
-										"14"
+										"<id_do_produto>"
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "DELETE - Exclui um Produto (Fanta Laranja)",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8085/product/14",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"product",
+												"14"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
 						}
 					]
 				},
@@ -320,7 +470,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8085/client?cpf=11111111111",
+									"raw": "http://localhost:8085/client?cpf=<cpf_do_cliente>",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -332,12 +482,41 @@
 									"query": [
 										{
 											"key": "cpf",
-											"value": "11111111111"
+											"value": "<cpf_do_cliente>"
 										}
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "GET - Busca cliente por CPF - 11111111111",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8085/client?cpf=11111111111",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"client"
+											],
+											"query": [
+												{
+													"key": "cpf",
+													"value": "11111111111"
+												}
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
 						},
 						{
 							"name": "POST - Insere cliente",
@@ -346,7 +525,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"cpf\": 28781099029,\r\n  \"name\": \"Guilherme\",\r\n  \"email\": \"guilherme@guilherme.com\"\r\n}",
+									"raw": "{\r\n  \"cpf\": <cpf_do_cliente>,\r\n  \"name\": \"<nome_do_cliente>\",\r\n  \"email\": \"<email_do_cliente>\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -365,7 +544,39 @@
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "POST - Insere cliente - Guilherme CPF 28781099029",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"cpf\": 28781099029,\r\n  \"name\": \"Guilherme\",\r\n  \"email\": \"guilherme@guilherme.com\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8085/client",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"client"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
 						}
 					]
 				},
@@ -392,12 +603,12 @@
 							"response": []
 						},
 						{
-							"name": "POST - FAKE CHECKOUT - Confirma pagamento do pedido",
+							"name": "GET - Busca status do pagamento do pedido por Id do pedido",
 							"request": {
-								"method": "POST",
+								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8085/order/3/payment",
+									"raw": "http://localhost:8085/order/<id_do_pedido>/payment",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -405,21 +616,46 @@
 									"port": "8085",
 									"path": [
 										"order",
-										"3",
+										"<id_do_pedido>",
 										"payment"
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "GET - Busca status do pagamento do pedido por Id do pedido - Id 3",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8085/order/3/payment",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"order",
+												"3",
+												"payment"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
 						},
 						{
-							"name": "POST - Cria novo pedido sem cliente identificado",
+							"name": "POST - Cria novo pedido",
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"product_ids\": [\r\n    2, 4, 8\r\n  ]\r\n}",
+									"raw": "{\r\n  \"client_id\": <id_do_cliente>,\r\n  \"product_ids\": [\r\n    <ids_dos_produtos>\r\n  ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -438,16 +674,79 @@
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "POST - Cria novo pedido sem cliente identificado",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"product_ids\": [\r\n    2, 4, 8\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8085/order",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"order"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "POST - Cria novo pedido com cliente identificado",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"client_id\": 1, \r\n  \"product_ids\": [\r\n    2, 4, 8\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8085/order",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"order"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
 						},
 						{
-							"name": "POST - Cria novo pedido com cliente identificado",
+							"name": "PATCH - Atualiza o status do pedido",
 							"request": {
-								"method": "POST",
+								"method": "PATCH",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"client_id\": 1, \r\n  \"product_ids\": [\r\n    2, 4, 8\r\n  ]\r\n}",
+									"raw": "{\r\n  \"status\": \"<status_a_ser_atualizado>\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -455,25 +754,254 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8085/order",
+									"raw": "http://localhost:8085/order/<id_do_pedido>",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8085",
 									"path": [
-										"order"
+										"order",
+										"<id_do_pedido>"
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "PATCH - Atualiza o status do pedido para \"Em Preparação\"",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8085/order/3",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"order",
+												"3"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "PATCH - Atualiza o status do pedido para \"Pronto\"",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"status\": \"READY\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8085/order/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"order",
+												"1"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "PATCH - Atualiza o status do pedido para \"Recebido\"",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"status\": \"RECEIVED\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8085/order/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"order",
+												"1"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "PATCH - Atualiza o status do pedido para \"Finalizado\"",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"status\": \"FINISHED\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8085/order/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"order",
+												"1"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "PATCH - Atualiza o status do pedido para \"Cancelado\"",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"status\": \"CANCELLED\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8085/order/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"order",
+												"1"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Webhook",
+					"item": [
+						{
+							"name": "POST - FAKE-WEBHOOK - Confirmação do pagamento",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"external_id\": <id_de_integração_externa_do_pedido>,\r\n  \"status\": \"<status_do_pedido>\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8085/mercadopago/webhook",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"mercadopago",
+										"webhook"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "POST - FAKE-WEBHOOK - Confirmação do pagamento do pedido com id externo 3",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"external_id\": 1,\r\n  \"status\": \"PAID\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8085/mercadopago/webhook",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8085",
+											"path": [
+												"mercadopago",
+												"webhook"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
 						}
 					]
 				}
 			]
 		},
 		{
-			"name": "Fluxo de Testes",
+			"name": "Fluxo de Testes - Docker",
 			"item": [
 				{
 					"name": "1. Cadastrar Produto - X-Bacon",
@@ -853,34 +1381,13 @@
 					"response": []
 				},
 				{
-					"name": "14. FAKE CHECKOUT - Confirma pagamento do pedido do cliente com CPF 77817616000",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8085/order/4/payment",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8085",
-							"path": [
-								"order",
-								"4",
-								"payment"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "15. Cria novo pedido sem cliente",
+					"name": "14. Cria novo pedido sem cliente",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"product_ids\": [\r\n    1, 4, 7\r\n  ]\r\n}",
+							"raw": "{\r\n  \"product_ids\": [\r\n    2, 4, 8, 10\r\n  ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -902,9 +1409,269 @@
 					"response": []
 				},
 				{
-					"name": "16. FAKE CHECKOUT - Confirma pagamento do pedido sem cliente",
+					"name": "15. Cria novo pedido sem cliente",
 					"request": {
 						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"product_ids\": [\r\n    1, 4, 7, 11\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "16. Cria novo pedido sem cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"product_ids\": [\r\n    12, 5, 9\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "17. Cria novo pedido sem cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"product_ids\": [\r\n    3, 5, 7\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "18. Cria novo pedido sem cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"product_ids\": [\r\n    4, 9, 10\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "19. Lista pedidos em preparação - Retorna lista vazia",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "20. FAKE WEBHOOK - Confirma pagamento do pedido 3",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"external_id\":3,\r\n    \"status\":\"PAID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/mercadopago/webhook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"mercadopago",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "21. GET - Busca status do pagamento do pedido 3",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/order/3/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"3",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "22. FAKE WEBHOOK - Confirma pagamento do pedido 4",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"external_id\":4,\r\n    \"status\":\"PAID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/mercadopago/webhook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"mercadopago",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "23. GET - Busca status do pagamento do pedido 4",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/order/4/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"4",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "24. FAKE WEBHOOK - Confirma pagamento do pedido 5",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"external_id\":5,\r\n    \"status\":\"PAID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/mercadopago/webhook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"mercadopago",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "25. GET - Busca status do pagamento do pedido 5",
+					"request": {
+						"method": "GET",
 						"header": [],
 						"url": {
 							"raw": "http://localhost:8085/order/5/payment",
@@ -923,7 +1690,671 @@
 					"response": []
 				},
 				{
-					"name": "17. Lista pedidos em preparação",
+					"name": "26. FAKE WEBHOOK - Confirma pagamento do pedido 6",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"external_id\":6,\r\n    \"status\":\"PAID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/mercadopago/webhook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"mercadopago",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "27. GET - Busca status do pagamento do pedido 6",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/order/6/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"6",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "28. FAKE WEBHOOK - Confirma pagamento do pedido 7",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"external_id\":7,\r\n    \"status\":\"PAID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/mercadopago/webhook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"mercadopago",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "29. GET - Busca status do pagamento do pedido 7",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/order/7/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"7",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "30. FAKE WEBHOOK - Confirma pagamento do pedido 8",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"external_id\":8,\r\n    \"status\":\"PAID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/mercadopago/webhook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"mercadopago",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "31. GET - Busca status do pagamento do pedido 8",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/order/8/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"8",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "32. FAKE WEBHOOK - Confirma pagamento do pedido 9",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"external_id\":9,\r\n    \"status\":\"PAID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/mercadopago/webhook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"mercadopago",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "33. GET - Busca status do pagamento do pedido 9",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/order/9/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"9",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "34. PATCH - Atualiza o status do pedido 3 para \"Em preparação\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "35. PATCH - Atualiza o status do pedido 4 para \"Em preparação\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "36. PATCH - Atualiza o status do pedido 5 para \"Em preparação\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "37. PATCH - Atualiza o status do pedido 6 para \"Em preparação\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "38. PATCH - Atualiza o status do pedido 7 para \"Em preparação\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "39. PATCH - Atualiza o status do pedido 8 para \"Em preparação\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "40. PATCH - Atualiza o status do pedido 9 para \"Em preparação\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "41. PATCH - Atualiza o status do pedido 5 para \"Pronto\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"READY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "42. PATCH - Atualiza o status do pedido 3 para \"Pronto\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"READY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "43. PATCH - Atualiza o status do pedido 7 para \"Pronto\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"READY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "44. PATCH - Atualiza o status do pedido 8 para \"Pronto\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"READY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "45. PATCH - Atualiza o status do pedido 9 para \"Pronto\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"READY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "46. PATCH - Atualiza o status do pedido 3 para \"Recebido\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"RECEIVED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "47. PATCH - Atualiza o status do pedido 8 para \"Recebido\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"RECEIVED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "48. PATCH - Atualiza o status do pedido 9 para \"Recebido\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"RECEIVED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "49. PATCH - Atualiza o status do pedido 9 para \"Finalizado\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"FINISHED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/order/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"order",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "50. Lista pedidos em preparação - Retorna lista com os pedidos ordenados com os status: Pronto > Em Preparação > Recebido; Ordenando também pela data de criação (created_at) do pedido",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -942,6 +2373,1400 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Fluxo de Testes - Kubernetes",
+			"item": [
+				{
+					"name": "1. Cadastrar Produto - X-Bacon",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"X-Bacon\",\n  \"category\": \"SNACK\",\n  \"price\": 12,\n  \"description\": \"X-Bacon clássico\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:32001/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Busca lista de Lanches",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32001/product?category=SNACK",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "SNACK"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Atualizar preço do X-Bacon",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"X-Bacon\",\n  \"category\": \"SNACK\",\n  \"price\": 16.00,\n  \"description\": \"X-Bacon clássico\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:32001/product/12",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Cadastrar Produto - Fritas com Cheddar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"Fritas com Cheddar\",\n  \"category\": \"SIDE\",\n  \"price\": 12,\n  \"description\": \"Porção de Batata Frita com molho Cheddar\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:32001/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Busca lista de Acompanhamentos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32001/product?category=SIDE",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "SIDE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. Cadastrar Produto - Fanta Laranja",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"Fanta Laranja\",\n  \"category\": \"DRINK\",\n  \"price\": 4,\n  \"description\": \"Fanta Laranja 200ml\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:32001/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7. Busca lista de Bebidas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32001/product?category=DRINK",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "DRINK"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. Cadastrar Produto - Pudim de Chocolate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"Pudim de Chocolate\",\n  \"category\": \"DESSERT\",\n  \"price\": 6,\n  \"description\": \"Pudim de Chocolate\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:32001/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9. Busca lista de Sobremesas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32001/product?category=DESSERT",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "DESSERT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Exclui o Pudim de Chocolate",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32001/product/15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11. Cadastra novo cliente - CPF 77817616000",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cpf\": 77817616000,\r\n  \"name\": \"William\",\r\n  \"email\": \"william@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/client",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12. Busca dados do cliente com CPF 77817616000",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32001/client?cpf=77817616000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"client"
+							],
+							"query": [
+								{
+									"key": "cpf",
+									"value": "77817616000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "13. Cria novo pedido do cliente com CPF 77817616000",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"client_id\": 6, \r\n  \"product_ids\": [\r\n    2, 4, 8\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "14. Cria novo pedido sem cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"product_ids\": [\r\n    2, 4, 8, 10\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "15. Cria novo pedido sem cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"product_ids\": [\r\n    1, 4, 7, 11\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "16. Cria novo pedido sem cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"product_ids\": [\r\n    12, 5, 9\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "17. Cria novo pedido sem cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"product_ids\": [\r\n    3, 5, 7\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "18. Cria novo pedido sem cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"product_ids\": [\r\n    4, 9, 10\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "19. Lista pedidos em preparação - Retorna lista vazia",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32001/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "20. FAKE WEBHOOK - Confirma pagamento do pedido 3",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"external_id\":3,\r\n    \"status\":\"PAID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/mercadopago/webhook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"mercadopago",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "21. GET - Busca status do pagamento do pedido 3",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32001/order/3/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"3",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "22. FAKE WEBHOOK - Confirma pagamento do pedido 4",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"external_id\":4,\r\n    \"status\":\"PAID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/mercadopago/webhook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"mercadopago",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "23. GET - Busca status do pagamento do pedido 4",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32001/order/4/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"4",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "24. FAKE WEBHOOK - Confirma pagamento do pedido 5",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"external_id\":5,\r\n    \"status\":\"PAID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/mercadopago/webhook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"mercadopago",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "25. GET - Busca status do pagamento do pedido 5",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32001/order/5/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"5",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "26. FAKE WEBHOOK - Confirma pagamento do pedido 6",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"external_id\":6,\r\n    \"status\":\"PAID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/mercadopago/webhook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"mercadopago",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "27. GET - Busca status do pagamento do pedido 6",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32001/order/6/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"6",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "28. FAKE WEBHOOK - Confirma pagamento do pedido 7",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"external_id\":7,\r\n    \"status\":\"PAID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/mercadopago/webhook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"mercadopago",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "29. GET - Busca status do pagamento do pedido 7",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32001/order/7/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"7",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "30. FAKE WEBHOOK - Confirma pagamento do pedido 8",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"external_id\":8,\r\n    \"status\":\"PAID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/mercadopago/webhook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"mercadopago",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "31. GET - Busca status do pagamento do pedido 8",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32001/order/8/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"8",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "32. FAKE WEBHOOK - Confirma pagamento do pedido 9",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"external_id\":9,\r\n    \"status\":\"PAID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/mercadopago/webhook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"mercadopago",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "33. GET - Busca status do pagamento do pedido 9",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32001/order/9/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"9",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "34. PATCH - Atualiza o status do pedido 3 para \"Em preparação\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "35. PATCH - Atualiza o status do pedido 4 para \"Em preparação\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "36. PATCH - Atualiza o status do pedido 5 para \"Em preparação\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "37. PATCH - Atualiza o status do pedido 6 para \"Em preparação\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "38. PATCH - Atualiza o status do pedido 7 para \"Em preparação\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "39. PATCH - Atualiza o status do pedido 8 para \"Em preparação\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "40. PATCH - Atualiza o status do pedido 9 para \"Em preparação\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "41. PATCH - Atualiza o status do pedido 5 para \"Pronto\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"READY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "42. PATCH - Atualiza o status do pedido 3 para \"Pronto\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"READY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "43. PATCH - Atualiza o status do pedido 7 para \"Pronto\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"READY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "44. PATCH - Atualiza o status do pedido 8 para \"Pronto\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"READY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "45. PATCH - Atualiza o status do pedido 9 para \"Pronto\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"READY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "46. PATCH - Atualiza o status do pedido 3 para \"Recebido\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"RECEIVED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "47. PATCH - Atualiza o status do pedido 8 para \"Recebido\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"RECEIVED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "48. PATCH - Atualiza o status do pedido 9 para \"Recebido\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"RECEIVED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "49. PATCH - Atualiza o status do pedido 9 para \"Finalizado\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"FINISHED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "50. Lista pedidos em preparação - Retorna lista com os pedidos ordenados com os status: Pronto > Em Preparação > Recebido; Ordenando também pela data de criação (created_at) do pedido",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32001/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
