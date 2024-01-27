@@ -7,5 +7,5 @@ spec:
     app: fastfood-fiap-postech
   type: NodePort
   ports:
-  - port: 80
+  - port: 8085
     nodePort: 32001

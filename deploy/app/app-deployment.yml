@@ -29,20 +29,20 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 80
+            port: 8085
           periodSeconds: 60
           failureThreshold: 3
           initialDelaySeconds: 60
         readinessProbe:
           httpGet:
             path: /actuator/health
-            port: 80
+            port: 8085
           periodSeconds: 60
           failureThreshold: 3
           initialDelaySeconds: 60
         resources:
           limits:
-            memory: "256Mi"
+            memory: "512Mi"
             cpu: "300m"
         ports:
-        - containerPort: 80
+        - containerPort: 8085
