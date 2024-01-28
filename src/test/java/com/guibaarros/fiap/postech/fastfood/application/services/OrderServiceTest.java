@@ -4,16 +4,18 @@ import com.guibaarros.fiap.postech.fastfood.application.dtos.client.ClientRespon
 import com.guibaarros.fiap.postech.fastfood.application.dtos.order.OrderPaymentStatusResponseDTO;
 import com.guibaarros.fiap.postech.fastfood.application.dtos.order.OrderResponseDTO;
 import com.guibaarros.fiap.postech.fastfood.application.dtos.product.ProductResponseDTO;
+import com.guibaarros.fiap.postech.fastfood.application.exceptions.order.OrderNotFoundException;
 import com.guibaarros.fiap.postech.fastfood.domain.entities.client.Client;
 import com.guibaarros.fiap.postech.fastfood.domain.entities.order.Order;
 import com.guibaarros.fiap.postech.fastfood.domain.entities.order.enums.OrderPaymentStatus;
 import com.guibaarros.fiap.postech.fastfood.domain.entities.product.Product;
 import com.guibaarros.fiap.postech.fastfood.domain.entities.product.enums.ProductCategory;
-import com.guibaarros.fiap.postech.fastfood.application.exceptions.order.OrderNotFoundException;
 import com.guibaarros.fiap.postech.fastfood.domain.repository.order.CountOrderBetweenDatePort;
+import com.guibaarros.fiap.postech.fastfood.domain.repository.order.CreatePaymentServiceOrderPort;
 import com.guibaarros.fiap.postech.fastfood.domain.repository.order.FindOrderByIdPort;
 import com.guibaarros.fiap.postech.fastfood.domain.repository.order.FindOrderInPreparationPort;
 import com.guibaarros.fiap.postech.fastfood.domain.repository.order.SaveOrderPort;
+import com.guibaarros.fiap.postech.fastfood.infrastructure.web.httpclient.dto.PaymentServiceResponseDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,7 +34,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,6 +50,9 @@ class OrderServiceTest {
 
     @Mock
     private CountOrderBetweenDatePort countOrderBetweenDatePort;
+
+    @Mock
+    private CreatePaymentServiceOrderPort createPaymentServiceOrderPort;
 
     @Mock
     private ClientService clientService;
@@ -105,6 +109,10 @@ class OrderServiceTest {
         expectedResponseDto.setFormattedNumber("001");
         expectedResponseDto.setTotalAmount(BigDecimal.valueOf(3L));
 
+        final PaymentServiceResponseDTO paymentServiceResponseDTO = new PaymentServiceResponseDTO();
+        paymentServiceResponseDTO.setExternalId(1L);
+        paymentServiceResponseDTO.setQrData("qrCodeData");
+
         when(productService.findProductById(1L)).thenReturn(product);
         when((countOrderBetweenDatePort.countOrderBetweenDate(any(), any())))
                 .thenReturn(orderQuantity);
@@ -112,6 +120,7 @@ class OrderServiceTest {
         when(saveOrderPort.saveOrder(any())).thenReturn(persistedOrder);
         when(clientService.mapEntityToResponseDto(any())).thenReturn(clientResponseDTO);
         when(productService.mapEntityToResponseDto(any())).thenReturn(productResponseDTO);
+        when(createPaymentServiceOrderPort.createPaymentServiceOrder(any(), any())).thenReturn(paymentServiceResponseDTO);
 
         final OrderResponseDTO actualOrderResponseDTO =
                 orderService.createOrder(1L, Collections.singletonList(1L));
@@ -152,11 +161,16 @@ class OrderServiceTest {
         expectedResponseDto.setFormattedNumber("001");
         expectedResponseDto.setTotalAmount(BigDecimal.valueOf(3L));
 
+        final PaymentServiceResponseDTO paymentServiceResponseDTO = new PaymentServiceResponseDTO();
+        paymentServiceResponseDTO.setExternalId(1L);
+        paymentServiceResponseDTO.setQrData("qrCodeData");
+
         when(productService.findProductById(1L)).thenReturn(product);
         when((countOrderBetweenDatePort.countOrderBetweenDate(any(), any())))
                 .thenReturn(orderQuantity);
         when(saveOrderPort.saveOrder(any())).thenReturn(persistedOrder);
         when(productService.mapEntityToResponseDto(any())).thenReturn(productResponseDTO);
+        when(createPaymentServiceOrderPort.createPaymentServiceOrder(any(), any())).thenReturn(paymentServiceResponseDTO);
 
         final OrderResponseDTO actualOrderResponseDTO =
                 orderService.createOrder(Collections.singletonList(1L));

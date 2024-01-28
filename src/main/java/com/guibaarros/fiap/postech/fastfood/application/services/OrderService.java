@@ -48,7 +48,6 @@ public class OrderService implements
     private final FindOrderInPreparationPort findOrderInPreparationPort;
     private final CountOrderBetweenDatePort countOrderBetweenDatePort;
     private final CreatePaymentServiceOrderPort createPaymentServiceOrderPort;
-
     private final ClientService clientService;
     private final ProductService productService;
 
