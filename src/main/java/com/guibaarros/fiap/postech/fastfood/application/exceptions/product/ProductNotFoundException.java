@@ -1,6 +1,6 @@
 package com.guibaarros.fiap.postech.fastfood.application.exceptions.product;
 
-import com.guibaarros.fiap.postech.fastfood.application.domain.product.enums.ProductCategory;
+import com.guibaarros.fiap.postech.fastfood.domain.entities.product.enums.ProductCategory;
 
 public class ProductNotFoundException extends RuntimeException {
 

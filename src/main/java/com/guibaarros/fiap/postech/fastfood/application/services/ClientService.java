@@ -1,16 +1,16 @@
 package com.guibaarros.fiap.postech.fastfood.application.services;
 
-import com.guibaarros.fiap.postech.fastfood.adapters.dtos.client.ClientResponseDTO;
-import com.guibaarros.fiap.postech.fastfood.application.domain.client.ClientValueObject;
+import com.guibaarros.fiap.postech.fastfood.application.dtos.client.ClientResponseDTO;
+import com.guibaarros.fiap.postech.fastfood.domain.entities.client.ClientValueObject;
 import com.guibaarros.fiap.postech.fastfood.application.exceptions.client.ClientAlreadyExistsException;
 import com.guibaarros.fiap.postech.fastfood.application.exceptions.client.ClientNotFoundException;
-import com.guibaarros.fiap.postech.fastfood.application.port.incoming.client.CreateClientUseCase;
-import com.guibaarros.fiap.postech.fastfood.application.port.incoming.client.FindClientByCpfUseCase;
-import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.client.FindClientByCpfPort;
-import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.client.SaveClientPort;
-import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.client.ValidateClientValueObjectPort;
-import com.guibaarros.fiap.postech.fastfood.application.domain.client.Client;
-import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.client.FindClientByIdPort;
+import com.guibaarros.fiap.postech.fastfood.application.usecases.client.CreateClientUseCase;
+import com.guibaarros.fiap.postech.fastfood.application.usecases.client.FindClientByCpfUseCase;
+import com.guibaarros.fiap.postech.fastfood.domain.repository.client.FindClientByCpfPort;
+import com.guibaarros.fiap.postech.fastfood.domain.repository.client.SaveClientPort;
+import com.guibaarros.fiap.postech.fastfood.domain.repository.client.ValidateClientValueObjectPort;
+import com.guibaarros.fiap.postech.fastfood.domain.entities.client.Client;
+import com.guibaarros.fiap.postech.fastfood.domain.repository.client.FindClientByIdPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

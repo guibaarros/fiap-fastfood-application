@@ -25,6 +25,8 @@
 ## Objetivo
 
 Repositório para o desenvolvimento dos Tech Challenges da Postech FIAP em Arquitetura de Software.
+Grupo 75
+Integrante: Guilherme Henrique Rafael Junqueira de Barros (guilhermehr00@gmail.com)
 
 ## Documentação
 ### Ferramentas utilizadas

@@ -1,8 +1,9 @@
 package com.guibaarros.fiap.postech.fastfood.application.domain.order;
 
-import com.guibaarros.fiap.postech.fastfood.application.domain.client.Client;
-import com.guibaarros.fiap.postech.fastfood.application.domain.product.Product;
-import com.guibaarros.fiap.postech.fastfood.application.domain.product.enums.ProductCategory;
+import com.guibaarros.fiap.postech.fastfood.domain.entities.client.Client;
+import com.guibaarros.fiap.postech.fastfood.domain.entities.order.Order;
+import com.guibaarros.fiap.postech.fastfood.domain.entities.product.Product;
+import com.guibaarros.fiap.postech.fastfood.domain.entities.product.enums.ProductCategory;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

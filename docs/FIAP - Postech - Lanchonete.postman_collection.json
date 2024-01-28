@@ -1986,6 +1986,38 @@
 									"header": [],
 									"cookie": [],
 									"body": ""
+								},
+								{
+									"name": "POST - FAKE-WEBHOOK - Falha na confirmação do pagamento",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"external_id\": 1,\r\n  \"status\": \"CANCELLED\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:32001/mercadopago/webhook",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"mercadopago",
+												"webhook"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
 								}
 							]
 						}

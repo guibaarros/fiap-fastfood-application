@@ -1,15 +1,16 @@
 package com.guibaarros.fiap.postech.fastfood.adapters.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.guibaarros.fiap.postech.fastfood.adapters.dtos.product.ProductRequestDTO;
-import com.guibaarros.fiap.postech.fastfood.adapters.dtos.product.ProductResponseDTO;
-import com.guibaarros.fiap.postech.fastfood.application.domain.product.ProductValueObject;
-import com.guibaarros.fiap.postech.fastfood.application.domain.product.enums.ProductCategory;
+import com.guibaarros.fiap.postech.fastfood.application.dtos.product.ProductRequestDTO;
+import com.guibaarros.fiap.postech.fastfood.application.dtos.product.ProductResponseDTO;
+import com.guibaarros.fiap.postech.fastfood.interfaces.ProductController;
+import com.guibaarros.fiap.postech.fastfood.domain.entities.product.ProductValueObject;
+import com.guibaarros.fiap.postech.fastfood.domain.entities.product.enums.ProductCategory;
 import com.guibaarros.fiap.postech.fastfood.application.exceptions.product.InvalidProductCategoryException;
-import com.guibaarros.fiap.postech.fastfood.application.port.incoming.product.CreateProductUseCase;
-import com.guibaarros.fiap.postech.fastfood.application.port.incoming.product.DeleteProductUseCase;
-import com.guibaarros.fiap.postech.fastfood.application.port.incoming.product.FindProductByCategoryUseCase;
-import com.guibaarros.fiap.postech.fastfood.application.port.incoming.product.UpdateProductUseCase;
+import com.guibaarros.fiap.postech.fastfood.application.usecases.product.CreateProductUseCase;
+import com.guibaarros.fiap.postech.fastfood.application.usecases.product.DeleteProductUseCase;
+import com.guibaarros.fiap.postech.fastfood.application.usecases.product.FindProductByCategoryUseCase;
+import com.guibaarros.fiap.postech.fastfood.application.usecases.product.UpdateProductUseCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

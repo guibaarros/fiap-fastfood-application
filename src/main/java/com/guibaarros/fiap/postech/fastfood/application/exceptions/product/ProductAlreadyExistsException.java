@@ -1,6 +1,6 @@
 package com.guibaarros.fiap.postech.fastfood.application.exceptions.product;
 
-import com.guibaarros.fiap.postech.fastfood.application.domain.product.ProductValueObject;
+import com.guibaarros.fiap.postech.fastfood.domain.entities.product.ProductValueObject;
 
 public class ProductAlreadyExistsException extends RuntimeException {
 

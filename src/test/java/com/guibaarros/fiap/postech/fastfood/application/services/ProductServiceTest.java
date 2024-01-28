@@ -1,16 +1,16 @@
 package com.guibaarros.fiap.postech.fastfood.application.services;
 
-import com.guibaarros.fiap.postech.fastfood.adapters.dtos.product.ProductResponseDTO;
-import com.guibaarros.fiap.postech.fastfood.application.domain.product.Product;
-import com.guibaarros.fiap.postech.fastfood.application.domain.product.ProductValueObject;
-import com.guibaarros.fiap.postech.fastfood.application.domain.product.enums.ProductCategory;
+import com.guibaarros.fiap.postech.fastfood.application.dtos.product.ProductResponseDTO;
+import com.guibaarros.fiap.postech.fastfood.domain.entities.product.Product;
+import com.guibaarros.fiap.postech.fastfood.domain.entities.product.ProductValueObject;
+import com.guibaarros.fiap.postech.fastfood.domain.entities.product.enums.ProductCategory;
 import com.guibaarros.fiap.postech.fastfood.application.exceptions.product.ProductAlreadyExistsException;
 import com.guibaarros.fiap.postech.fastfood.application.exceptions.product.ProductNotFoundException;
-import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.product.DeleteProductPort;
-import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.product.FindProductByCategoryPort;
-import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.product.FindProductByIdPort;
-import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.product.SaveProductPort;
-import com.guibaarros.fiap.postech.fastfood.application.port.outgoing.product.ValidateProductValueObjectPort;
+import com.guibaarros.fiap.postech.fastfood.domain.repository.product.DeleteProductPort;
+import com.guibaarros.fiap.postech.fastfood.domain.repository.product.FindProductByCategoryPort;
+import com.guibaarros.fiap.postech.fastfood.domain.repository.product.FindProductByIdPort;
+import com.guibaarros.fiap.postech.fastfood.domain.repository.product.SaveProductPort;
+import com.guibaarros.fiap.postech.fastfood.domain.repository.product.ValidateProductValueObjectPort;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

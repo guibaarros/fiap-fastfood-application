@@ -1,10 +1,11 @@
 package com.guibaarros.fiap.postech.fastfood.adapters.controller;
 
-import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.OrderRequestDTO;
-import com.guibaarros.fiap.postech.fastfood.adapters.dtos.order.OrderResponseDTO;
-import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.ConfirmPaymentUseCase;
-import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.CreateOrderUseCase;
-import com.guibaarros.fiap.postech.fastfood.application.port.incoming.order.ListQueuedOrderUseCase;
+import com.guibaarros.fiap.postech.fastfood.application.dtos.order.OrderRequestDTO;
+import com.guibaarros.fiap.postech.fastfood.application.dtos.order.OrderResponseDTO;
+import com.guibaarros.fiap.postech.fastfood.application.usecases.order.ConfirmPaymentUseCase;
+import com.guibaarros.fiap.postech.fastfood.application.usecases.order.CreateOrderUseCase;
+import com.guibaarros.fiap.postech.fastfood.application.usecases.order.ListQueuedOrderUseCase;
+import com.guibaarros.fiap.postech.fastfood.interfaces.OrderController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
