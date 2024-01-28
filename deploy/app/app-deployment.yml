@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: fastfood-fiap-postech
-        image: guibaarros/fastfood-fiap-postech:1.0.1
+        image: guibaarros/fastfood-fiap-postech:1.0.2
         env:
           - name: DB_HOSTNAME
             value: svc-postgres

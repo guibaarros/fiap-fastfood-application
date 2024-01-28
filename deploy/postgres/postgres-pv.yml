@@ -10,4 +10,4 @@ spec:
   storageClassName: postgres-data
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /tmp/database/data/
+    path: /tmp/fasfood-fiap-postech/database/data/
