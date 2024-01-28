@@ -26,7 +26,7 @@
 
 Repositório para o desenvolvimento dos Tech Challenges da Postech FIAP em Arquitetura de Software.
 Grupo 75
-Integrante: Guilherme Henrique Rafael Junqueira de Barros (guilhermehr00@gmail.com)
+Integrante: Guilherme Henrique Rafael Junqueira de Barros
 
 ## Documentação
 ### Ferramentas utilizadas
