@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8085",
+      "url": "http://localhost:32001",
       "description": "Generated server url"
     }
   ],
@@ -502,14 +502,6 @@
   },
   "components": {
     "schemas": {
-      "ErrorDTO": {
-        "type": "object",
-        "properties": {
-          "error_message": {
-            "type": "string"
-          }
-        }
-      },
       "ProductResponseDTO": {
         "type": "object",
         "properties": {
@@ -538,6 +530,14 @@
           "created_at": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "ErrorDTO": {
+        "type": "object",
+        "properties": {
+          "error_message": {
+            "type": "string"
           }
         }
       },

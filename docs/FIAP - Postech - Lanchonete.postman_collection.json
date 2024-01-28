@@ -223,7 +223,7 @@
 									]
 								},
 								"url": {
-									"raw": "http://localhost:8085/product/3",
+									"raw": "http://localhost:8085/product/<id>",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -231,7 +231,7 @@
 									"port": "8085",
 									"path": [
 										"product",
-										"3"
+										"<id>"
 									]
 								}
 							},
@@ -983,6 +983,999 @@
 												"localhost"
 											],
 											"port": "8085",
+											"path": [
+												"mercadopago",
+												"webhook"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "APIs - Kubernetes",
+			"item": [
+				{
+					"name": "Produto",
+					"item": [
+						{
+							"name": "POST - Cadastrar Produto",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "body",
+											"value": "{\n  \"name\": \"<nome do produto>\",\n  \"category\": \"<tipo do produto>\",\n  \"price\": <preço do produto>,\n  \"description\": \"<descrição do produto>\"\n}",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/development/projects/fastfood-fiap-postech/.picture/hotdog.png",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:32001/product",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32001",
+									"path": [
+										"product"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "POST - Cadastrar Produto - Lanche",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "body",
+													"value": "{\n  \"name\": \"X-Bacon\",\n  \"category\": \"SNACK\",\n  \"price\": 12,\n  \"description\": \"X-Bacon clássico\"\n}",
+													"type": "text"
+												},
+												{
+													"key": "file",
+													"type": "file",
+													"src": "/C:/development/projects/fastfood-fiap-postech/.picture/hotdog.png",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:32001/product",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"product"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "POST - Cadastrar Produto - Acompanhamento",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "body",
+													"value": "{\n  \"name\": \"Fritas com Cheddar\",\n  \"category\": \"SIDE\",\n  \"price\": 12,\n  \"description\": \"Porção de Batata Frita com molho Cheddar\"\n}",
+													"type": "text"
+												},
+												{
+													"key": "file",
+													"type": "file",
+													"src": "/C:/development/projects/fastfood-fiap-postech/.picture/hotdog.png",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:32001/product",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"product"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "POST - Cadastrar Produto - Bebida",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "body",
+													"value": "{\n  \"name\": \"Fanta Laranja\",\n  \"category\": \"DRINK\",\n  \"price\": 4,\n  \"description\": \"Fanta Laranja 200ml\"\n}",
+													"type": "text"
+												},
+												{
+													"key": "file",
+													"type": "file",
+													"src": "/C:/development/projects/fastfood-fiap-postech/.picture/hotdog.png",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:32001/product",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"product"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "POST - Cadastrar Produto - Sobremesa",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "body",
+													"value": "{\n  \"name\": \"Pudim de Chocolate\",\n  \"category\": \"DESSERT\",\n  \"price\": 6,\n  \"description\": \"Pudim de Chocolate\"\n}",
+													"type": "text"
+												},
+												{
+													"key": "file",
+													"type": "file",
+													"src": "/C:/development/projects/fastfood-fiap-postech/.picture/hotdog.png",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:32001/product",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"product"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "PUT - Atualizar Produto",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "body",
+											"value": "{\n  \"name\": \"<nome do produto>\",\n  \"category\": \"<tipo do produto>\",\n  \"price\": <preço do produto>,\n  \"description\": \"<descrição do produto>\"\n}",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": [],
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:32001/product/<id>",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32001",
+									"path": [
+										"product",
+										"<id>"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "PUT - Atualizar Produto (HotDog para HotDog Duplo)",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "body",
+													"value": "{\n  \"name\": \"Hot-Dog Duplo\",\n  \"category\": \"SNACK\",\n  \"price\": 14,\n  \"description\": \"Hot-Dog Duplo\"\n}",
+													"type": "text"
+												},
+												{
+													"key": "file",
+													"type": "file",
+													"src": [],
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:32001/product/3",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"product",
+												"3"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "GET - Busca produtos por categoria",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32001/product?category=<categoria>",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32001",
+									"path": [
+										"product"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "<categoria>"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GET - Busca produtos por categoria - Lanche",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:32001/product?category=SNACK",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"product"
+											],
+											"query": [
+												{
+													"key": "category",
+													"value": "SNACK"
+												}
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "GET - Busca produtos por categoria - Acompanhamento",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:32001/product?category=SIDE",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"product"
+											],
+											"query": [
+												{
+													"key": "category",
+													"value": "SIDE"
+												}
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "GET - Busca produtos por categoria - Bebida",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:32001/product?category=DRINK",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"product"
+											],
+											"query": [
+												{
+													"key": "category",
+													"value": "DRINK"
+												}
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "GET - Busca produtos por categoria - Lanche",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:32001/product?category=DESSERT",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"product"
+											],
+											"query": [
+												{
+													"key": "category",
+													"value": "DESSERT"
+												}
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "DELETE - Exclui um Produto",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32001/product/<id_do_produto>",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32001",
+									"path": [
+										"product",
+										"<id_do_produto>"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "DELETE - Exclui um Produto (Fanta Laranja)",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:32001/product/14",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"product",
+												"14"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Cliente",
+					"item": [
+						{
+							"name": "GET - Busca cliente por CPF",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32001/client?cpf=<cpf_do_cliente>",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32001",
+									"path": [
+										"client"
+									],
+									"query": [
+										{
+											"key": "cpf",
+											"value": "<cpf_do_cliente>"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GET - Busca cliente por CPF - 11111111111",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:32001/client?cpf=11111111111",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"client"
+											],
+											"query": [
+												{
+													"key": "cpf",
+													"value": "11111111111"
+												}
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "POST - Insere cliente",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cpf\": <cpf_do_cliente>,\r\n  \"name\": \"<nome_do_cliente>\",\r\n  \"email\": \"<email_do_cliente>\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:32001/client",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32001",
+									"path": [
+										"client"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "POST - Insere cliente - Guilherme CPF 28781099029",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"cpf\": 28781099029,\r\n  \"name\": \"Guilherme\",\r\n  \"email\": \"guilherme@guilherme.com\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:32001/client",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"client"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Pedido",
+					"item": [
+						{
+							"name": "GET - Busca pedidos em preparação",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32001/order",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32001",
+									"path": [
+										"order"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET - Busca status do pagamento do pedido por Id do pedido",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32001/order/<id_do_pedido>/payment",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32001",
+									"path": [
+										"order",
+										"<id_do_pedido>",
+										"payment"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GET - Busca status do pagamento do pedido por Id do pedido - Id 3",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:32001/order/3/payment",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"order",
+												"3",
+												"payment"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "POST - Cria novo pedido",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"client_id\": <id_do_cliente>,\r\n  \"product_ids\": [\r\n    <ids_dos_produtos>\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:32001/order",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32001",
+									"path": [
+										"order"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "POST - Cria novo pedido sem cliente identificado",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"product_ids\": [\r\n    2, 4, 8\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:32001/order",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"order"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "POST - Cria novo pedido com cliente identificado",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"client_id\": 1, \r\n  \"product_ids\": [\r\n    2, 4, 8\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:32001/order",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"order"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "PATCH - Atualiza o status do pedido",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"status\": \"<status_a_ser_atualizado>\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:32001/order/<id_do_pedido>",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32001",
+									"path": [
+										"order",
+										"<id_do_pedido>"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "PATCH - Atualiza o status do pedido para \"Em Preparação\"",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:32001/order/3",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"order",
+												"3"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "PATCH - Atualiza o status do pedido para \"Pronto\"",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"status\": \"READY\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:32001/order/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"order",
+												"1"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "PATCH - Atualiza o status do pedido para \"Recebido\"",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"status\": \"RECEIVED\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:32001/order/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"order",
+												"1"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "PATCH - Atualiza o status do pedido para \"Finalizado\"",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"status\": \"FINISHED\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:32001/order/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"order",
+												"1"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "PATCH - Atualiza o status do pedido para \"Cancelado\"",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"status\": \"CANCELLED\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:32001/order/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
+											"path": [
+												"order",
+												"1"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Webhook",
+					"item": [
+						{
+							"name": "POST - FAKE-WEBHOOK - Confirmação do pagamento",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"external_id\": <id_de_integração_externa_do_pedido>,\r\n  \"status\": \"<status_do_pedido>\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:32001/mercadopago/webhook",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32001",
+									"path": [
+										"mercadopago",
+										"webhook"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "POST - FAKE-WEBHOOK - Confirmação do pagamento do pedido com id externo 3",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"external_id\": 1,\r\n  \"status\": \"PAID\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:32001/mercadopago/webhook",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "32001",
 											"path": [
 												"mercadopago",
 												"webhook"
@@ -2365,6 +3358,794 @@
 								"localhost"
 							],
 							"port": "8085",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fluxo de Testes - Kubernetes - Base inicial",
+			"item": [
+				{
+					"name": "0.1. Cadastra cliente Guilherme",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cpf\": 28781099029,\r\n  \"name\": \"Guilherme\",\r\n  \"email\": \"guilherme@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/client",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "0.2. Cadastra cliente Camila",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cpf\": 935439056,\r\n  \"name\": \"Camila\",\r\n  \"email\": \"camila@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/client",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "0.3. Cadastra cliente Lisa",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cpf\": 74044290059,\r\n  \"name\": \"Lisa\",\r\n  \"email\": \"lisa@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/client",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "0.4. Cadastra cliente Cora",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cpf\": 53309306003,\r\n  \"name\": \"Cora\",\r\n  \"email\": \"cora@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/client",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "0.5. Cadastra cliente sem dados",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cpf\": 61657364089\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/client",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.1. Cadastrar Produto - X-Salada",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"X-Salada\",\n  \"category\": \"SNACK\",\n  \"price\": 15,\n  \"description\": \"X-Salada Clássico\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:32001/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.2. Cadastrar Produto - X-Burger",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"X-Burger\",\n  \"category\": \"SNACK\",\n  \"price\": 12,\n  \"description\": \"Pão, carne e queijo\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:32001/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.3. Cadastrar Produto - Hot-Dog",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"Hot-Dog\",\n  \"category\": \"SNACK\",\n  \"price\": 10,\n  \"description\": \"Hot-Dog completo\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:32001/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.4. Cadastrar Produto - Fritas",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"Fritas\",\n  \"category\": \"SIDE\",\n  \"price\": 8,\n  \"description\": \"Porção de Fritas individual\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:32001/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.5. Cadastrar Produto - Onion Rings",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"Onion Rings\",\n  \"category\": \"SIDE\",\n  \"price\": 8,\n  \"description\": \"Anéis de cebola empanados\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:32001/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.6. Cadastrar Produto - Nuggets",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"Nuggets\",\n  \"category\": \"SIDE\",\n  \"price\": 12,\n  \"description\": \"Porção de Nuggets\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:32001/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.7. Cadastrar Produto - Coca-Cola",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"Coca-Cola\",\n  \"category\": \"DRINK\",\n  \"price\": 4,\n  \"description\": \"Coca-Cola 200ml\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:32001/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.8. Cadastrar Produto - Água Mineral",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"Água Mineral\",\n  \"category\": \"DRINK\",\n  \"price\": 3,\n  \"description\": \"Água Mineral sem gás\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:32001/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.9. Cadastrar Produto - Água com gás",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"Água Mineral com gás\",\n  \"category\": \"DRINK\",\n  \"price\": 3,\n  \"description\": \"Água Mineral com gás\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:32001/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.10 Cadastrar Produto - Pudim",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"Pudim\",\n  \"category\": \"DESSERT\",\n  \"price\": 6,\n  \"description\": \"Pudim de Leite\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:32001/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.11. Cadastrar Produto - Mousse de Chocolate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "{\n  \"name\": \"Mousse de Chocolate\",\n  \"category\": \"DESSERT\",\n  \"price\": 6,\n  \"description\": \"Mousse cremoso de chocolate\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:32001/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.1. Cria novo pedido sem cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"product_ids\": [\r\n    1, 5, 8, 11\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.1.1. FAKE WEBHOOK - Confirma pagamento do pedido 1",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"external_id\":1,\r\n    \"status\":\"PAID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/mercadopago/webhook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"mercadopago",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.1.2. PATCH - Atualiza o status do pedido 1 para \"Em preparação\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"PREPARING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.1.3. PATCH - Atualiza o status do pedido 1 para \"Pronto\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"READY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.1.4. PATCH - Atualiza o status do pedido 1 para \"Recebido\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"RECEIVED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.1.5. PATCH - Atualiza o status do pedido 1 para \"Finalizado\"",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"FINISHED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.2. Cria novo pedido com cliente 1",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"client_id\": 1,\r\n  \"product_ids\": [\r\n    1, 4, 7, 10\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.2.1. FAKE WEBHOOK - Confirma pagamento do pedido 2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"external_id\":2,\r\n    \"status\":\"PAID\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/mercadopago/webhook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
+							"path": [
+								"mercadopago",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.3. Cria novo pedido com cliente 2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"client_id\": 2,\r\n  \"product_ids\": [\r\n    2, 4, 8\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32001/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32001",
 							"path": [
 								"order"
 							]
