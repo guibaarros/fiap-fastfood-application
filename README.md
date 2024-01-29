@@ -116,7 +116,7 @@ O **Deployment** da aplicação contém as configurações de:
 - Um POD inicialmente executando a aplicação:
     - replicas: 1
 - Imagem presente no DockerHub a ser executada dentro do POD:
-    - guibaarros/fastfood-fiap-postech:1.0.2
+    - [guibaarros/fastfood-fiap-postech:1.0.2](https://hub.docker.com/layers/guibaarros/fastfood-fiap-postech/1.0.2/images/sha256-a31c1596f2e4d5136376d2cd84ea6c599f2a5063bfd94abcac02846222499b1d?context=repo)
 - Variáveis de ambiente de configuração de acesso ao banco de dados
     - DB_HOSTNAME;
     - DB_USER;
