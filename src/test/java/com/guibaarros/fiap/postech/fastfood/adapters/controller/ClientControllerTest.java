@@ -1,10 +1,11 @@
 package com.guibaarros.fiap.postech.fastfood.adapters.controller;
 
-import com.guibaarros.fiap.postech.fastfood.adapters.dtos.client.ClientRequestDTO;
-import com.guibaarros.fiap.postech.fastfood.adapters.dtos.client.ClientResponseDTO;
-import com.guibaarros.fiap.postech.fastfood.application.domain.client.ClientValueObject;
-import com.guibaarros.fiap.postech.fastfood.application.port.incoming.client.CreateClientUseCase;
-import com.guibaarros.fiap.postech.fastfood.application.port.incoming.client.FindClientByCpfUseCase;
+import com.guibaarros.fiap.postech.fastfood.application.dtos.client.ClientRequestDTO;
+import com.guibaarros.fiap.postech.fastfood.application.dtos.client.ClientResponseDTO;
+import com.guibaarros.fiap.postech.fastfood.interfaces.ClientController;
+import com.guibaarros.fiap.postech.fastfood.domain.entities.client.ClientValueObject;
+import com.guibaarros.fiap.postech.fastfood.application.usecases.client.CreateClientUseCase;
+import com.guibaarros.fiap.postech.fastfood.application.usecases.client.FindClientByCpfUseCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

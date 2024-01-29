@@ -1,6 +1,6 @@
 package com.guibaarros.fiap.postech.fastfood.application.exceptions.client;
 
-import com.guibaarros.fiap.postech.fastfood.application.domain.client.ClientValueObject;
+import com.guibaarros.fiap.postech.fastfood.domain.entities.client.ClientValueObject;
 
 public class ClientAlreadyExistsException extends RuntimeException {
 

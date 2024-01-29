@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastfood-fiap-postech
+  labels:
+    app: fastfood-fiap-postech
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastfood-fiap-postech
+  template:
+    metadata:
+      labels:
+        app: fastfood-fiap-postech
+    spec:
+      containers:
+      - name: fastfood-fiap-postech
+        image: guibaarros/fastfood-fiap-postech:1.0.2
+        env:
+          - name: DB_HOSTNAME
+            value: svc-postgres
+          - name: DB_USER
+            value: postgres
+          - name: DB_PASSWORD
+            value: abcd1234
+          - name: DB_PORT
+            value: "5432"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8085
+          periodSeconds: 60
+          failureThreshold: 3
+          initialDelaySeconds: 60
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8085
+          periodSeconds: 60
+          failureThreshold: 3
+          initialDelaySeconds: 60
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "300m"
+        ports:
+        - containerPort: 8085

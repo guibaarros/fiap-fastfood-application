@@ -1,361 +1,694 @@
-openapi: 3.0.1
-info:
-  title: FastFood Manager APIs
-  version: v1
-servers:
-  - url: http://localhost:8085
-    description: Generated server url
-paths:
-  /product/{id}:
-    put:
-      tags:
-        - Product Controller
-      summary: Atualiza um produto
-      operationId: updateProduct
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - name: body
-          in: query
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                file:
-                  type: string
-                  format: binary
-      responses:
-        '200':
-          description: Produto atualizado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProductResponseDTO'
-        '404':
-          description: Produto não encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-    delete:
-      tags:
-        - Product Controller
-      summary: Remove um produto
-      operationId: deleteProduct
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Produto removido
-        '404':
-          description: Produto não encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-  /product:
-    get:
-      tags:
-        - Product Controller
-      summary: Busca produtos por categoria
-      operationId: findProductsByCategory
-      parameters:
-        - name: category
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Produto(s) encontrado(s)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProductResponseDTO'
-        '400':
-          description: Categoria inválida
-          content:
-            application/json:
-              schema:
-                type: string
-                enum:
-                  - SNACK
-                  - SIDE
-                  - DRINK
-                  - DESSERT
-        '404':
-          description: Produto(s) não encontrado(s)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-    post:
-      tags:
-        - Product Controller
-      summary: Cadastrar um novo produto
-      operationId: createProduct
-      parameters:
-        - name: body
-          in: query
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                file:
-                  type: string
-                  format: binary
-      responses:
-        '201':
-          description: Produto cadastrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProductResponseDTO'
-        '422':
-          description: Produto já cadastrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-  /order:
-    get:
-      tags:
-        - Order Controller
-      summary: Busca pedidos em preparação
-      operationId: findOrderInPreparation
-      responses:
-        '200':
-          description: Pedido(s) encontrado(s)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrderResponseDTO'
-        '404':
-          description: Nenhum pedido em preparo encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-    post:
-      tags:
-        - Order Controller
-      summary: Criar um novo pedido
-      operationId: createOrder
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrderRequestDTO'
-        required: true
-      responses:
-        '201':
-          description: Pedido criado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrderResponseDTO'
-  /order/{id}/payment:
-    post:
-      tags:
-        - Order Controller
-      summary: Confirma pagamento do pedido
-      operationId: confirmOrderPayment
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Pagamento do pedido confirmado
-        '404':
-          description: Nenhum pedido aguardando pagamento encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-  /client:
-    get:
-      tags:
-        - Client Controller
-      summary: Buscar um cliente por cpf
-      operationId: findClientByCpf
-      parameters:
-        - name: cpf
-          in: query
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Cliente encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ClientResponseDTO'
-        '404':
-          description: Cliente não encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-    post:
-      tags:
-        - Client Controller
-      summary: Cadastrar um novo cliente
-      operationId: createClient
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ClientRequestDTO'
-        required: true
-      responses:
-        '201':
-          description: Cliente cadastrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ClientResponseDTO'
-        '422':
-          description: Cliente já cadastrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-components:
-  schemas:
-    ErrorDTO:
-      type: object
-      properties:
-        error_message:
-          type: string
-    ProductResponseDTO:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        category:
-          type: string
-          enum:
-            - SNACK
-            - SIDE
-            - DRINK
-            - DESSERT
-        price:
-          type: number
-        description:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-    OrderRequestDTO:
-      required:
-        - product_ids
-      type: object
-      properties:
-        client_id:
-          type: integer
-          format: int64
-        product_ids:
-          type: array
-          items:
-            type: integer
-            format: int64
-    ClientResponseDTO:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        cpf:
-          type: integer
-          format: int64
-        name:
-          type: string
-        email:
-          type: string
-        last_visit:
-          type: string
-          format: date
-        created_at:
-          type: string
-          format: date-time
-    OrderResponseDTO:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        client:
-          $ref: '#/components/schemas/ClientResponseDTO'
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductResponseDTO'
-        total_amount:
-          type: number
-        status:
-          type: string
-          enum:
-            - AWAITING_PAYMENT
-            - AWAITING_PREPARATION
-            - PREPARING
-            - READY
-            - FINISHED
-            - CANCELLED
-        payment_status:
-          type: string
-          enum:
-            - AWAITING_PAYMENT
-            - PAID
-            - CANCELLED
-        created_at:
-          type: string
-          format: date-time
-        finished_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        waiting_time_in_minutes:
-          type: integer
-          format: int64
-        formatted_number:
-          type: string
-    ClientRequestDTO:
-      type: object
-      properties:
-        cpf:
-          type: integer
-          format: int64
-        name:
-          type: string
-        email:
-          type: string
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "FastFood Manager APIs",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:32001",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/product/{id}": {
+      "put": {
+        "tags": [
+          "Product Controller"
+        ],
+        "summary": "Atualiza um produto",
+        "operationId": "updateProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "body",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Produto atualizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Produto não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Product Controller"
+        ],
+        "summary": "Remove um produto",
+        "operationId": "deleteProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto removido"
+          },
+          "404": {
+            "description": "Produto não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/product": {
+      "get": {
+        "tags": [
+          "Product Controller"
+        ],
+        "summary": "Busca produtos por categoria",
+        "operationId": "findProductsByCategory",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto(s) encontrado(s)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Categoria inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "SNACK",
+                    "SIDE",
+                    "DRINK",
+                    "DESSERT"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Produto(s) não encontrado(s)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Product Controller"
+        ],
+        "summary": "Cadastrar um novo produto",
+        "operationId": "createProduct",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Produto cadastrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseDTO"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Produto já cadastrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order": {
+      "get": {
+        "tags": [
+          "Order Controller"
+        ],
+        "summary": "Busca pedidos em preparação",
+        "operationId": "findOrderInPreparation",
+        "responses": {
+          "200": {
+            "description": "Pedido(s) encontrado(s)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponseDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Nenhum pedido em preparo encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Order Controller"
+        ],
+        "summary": "Checkout do pedido",
+        "operationId": "createOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Pedido criado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mercadopago/webhook": {
+      "post": {
+        "tags": [
+          "Webhook de integração Fake com o Mercado Pago"
+        ],
+        "summary": "Webhook de notificação de pagamento do pedido pelo Mercado Pago",
+        "operationId": "confirmPaymentWebhookNotification",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MercadoPagoWebhookRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Pagamento do pedido confirmado"
+          },
+          "400": {
+            "description": "Falha ao confirmar o pagamento do pedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client": {
+      "get": {
+        "tags": [
+          "Client Controller"
+        ],
+        "summary": "Buscar um cliente por cpf",
+        "operationId": "findClientByCpf",
+        "parameters": [
+          {
+            "name": "cpf",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cliente encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientResponseDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cliente não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Client Controller"
+        ],
+        "summary": "Cadastrar um novo cliente",
+        "operationId": "createClient",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Cliente cadastrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientResponseDTO"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Cliente já cadastrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order/{id}": {
+      "patch": {
+        "tags": [
+          "Order Controller"
+        ],
+        "summary": "Atualiza o status do pedido",
+        "operationId": "updateOrderStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderStatusDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Pedido atualizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Falha ao atualizar o status do pedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Nenhum pedido encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order/{id}/payment": {
+      "get": {
+        "tags": [
+          "Order Controller"
+        ],
+        "summary": "Busca status do pagamento do pedido por Id do pedido",
+        "operationId": "findOrderPaymentStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponseDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Nenhum pedido encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ProductResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "SNACK",
+              "SIDE",
+              "DRINK",
+              "DESSERT"
+            ]
+          },
+          "price": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ErrorDTO": {
+        "type": "object",
+        "properties": {
+          "error_message": {
+            "type": "string"
+          }
+        }
+      },
+      "OrderRequestDTO": {
+        "required": [
+          "product_ids"
+        ],
+        "type": "object",
+        "properties": {
+          "client_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "product_ids": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      },
+      "ClientResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "cpf": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "last_visit": {
+            "type": "string",
+            "format": "date"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "OrderResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "client": {
+            "$ref": "#/components/schemas/ClientResponseDTO"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductResponseDTO"
+            }
+          },
+          "total_amount": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "AWAITING_PAYMENT",
+              "AWAITING_PREPARATION",
+              "PREPARING",
+              "READY",
+              "RECEIVED",
+              "FINISHED",
+              "CANCELLED"
+            ]
+          },
+          "payment_status": {
+            "type": "string",
+            "enum": [
+              "AWAITING_PAYMENT",
+              "PAID",
+              "CANCELLED"
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finished_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "waiting_time_in_minutes": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "formatted_number": {
+            "type": "string"
+          },
+          "payment_qr_code_data": {
+            "type": "string"
+          },
+          "external_id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "MercadoPagoWebhookRequestDTO": {
+        "type": "object",
+        "properties": {
+          "external_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "ClientRequestDTO": {
+        "type": "object",
+        "properties": {
+          "cpf": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateOrderStatusDTO": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

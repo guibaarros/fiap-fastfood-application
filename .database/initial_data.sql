@@ -51,6 +51,9 @@ CREATE TABLE IF NOT EXISTS public.tb_order
     status character varying(255) COLLATE pg_catalog."default" NOT NULL,
     total_amount numeric(38,2),
     updated_at timestamp(6) without time zone,
+    payment_status_updated_at timestamp(6) without time zone,
+    payment_qr_code_data character varying(255) COLLATE pg_catalog."default",
+    external_id bigint,
     client_id bigint,
     CONSTRAINT tb_order_pkey PRIMARY KEY (order_id),
     CONSTRAINT tk_tb_order_client FOREIGN KEY (client_id)
@@ -58,7 +61,7 @@ CREATE TABLE IF NOT EXISTS public.tb_order
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
     CONSTRAINT tb_order_payment_status_check CHECK (payment_status::text = ANY (ARRAY['AWAITING_PAYMENT'::character varying, 'PAID'::character varying, 'CANCELLED'::character varying]::text[])),
-    CONSTRAINT tb_order_status_check CHECK (status::text = ANY (ARRAY['AWAITING_PAYMENT'::character varying, 'AWAITING_PREPARATION'::character varying, 'PREPARING'::character varying, 'READY'::character varying, 'FINISHED'::character varying, 'CANCELLED'::character varying]::text[]))
+    CONSTRAINT tb_order_status_check CHECK (status::text = ANY (ARRAY['AWAITING_PAYMENT'::character varying, 'AWAITING_PREPARATION'::character varying, 'PREPARING'::character varying, 'READY'::character varying, 'RECEIVED'::character varying::text, 'FINISHED'::character varying, 'CANCELLED'::character varying]::text[]))
 );
 
 CREATE TABLE IF NOT EXISTS public.tb_product
@@ -125,9 +128,9 @@ INSERT INTO public.tb_product(category, created_at, description, name, price) VA
 INSERT INTO public.tb_product(category, created_at, description, name, price) VALUES ('DESSERT', now(), 'Mousse cremoso de chocolate', 'Mousse de Chocolate', 6);
 
 -- INSERT 
-INSERT INTO public.tb_order(created_at, "number", payment_status, status, total_amount, finished_at, updated_at) VALUES ('2023-10-18 14:15:32.595585', 1, 'PAID', 'FINISHED', 32, '2023-10-18 14:28:58.125883', '2023-10-18 14:28:58.125883');
-INSERT INTO public.tb_order(created_at, "number", payment_status, status, total_amount, client_id) VALUES (now(), 1, 'PAID', 'AWAITING_PREPARATION', 33, 1);
-INSERT INTO public.tb_order(created_at, "number", payment_status, status, total_amount, client_id) VALUES (now(), 2, 'AWAITING_PAYMENT', 'AWAITING_PAYMENT', 23, 2);
+INSERT INTO public.tb_order(created_at, "number", payment_status, status, total_amount, finished_at, updated_at, payment_status_updated_at, external_id, payment_qr_code_data) VALUES ('2023-10-18 14:15:32.595585', 1, 'PAID', 'FINISHED', 32, '2023-10-18 14:28:58.125883', '2023-10-18 14:28:58.125883', '2023-10-18 14:17:21.7458', 1, '"00020101021243650016COM.MERCADOLIBRE02013063638f1192a-5fd1-4180-a180-8bcae3556bc35204000053039865802BR5925IZABEL AAAA DE MELO6007BARUERI62070503***63040B6D"');
+INSERT INTO public.tb_order(created_at, "number", payment_status, status, total_amount, client_id, payment_status_updated_at, external_id, payment_qr_code_data) VALUES (now(), 1, 'PAID', 'AWAITING_PREPARATION', 33, 1, now(), 2, '"00020101021243650016COM.MERCADOLIBRE02013063638f1192a-5fd1-4180-a180-8bcae3556bc35204000053039865802BR5925IZABEL AAAA DE MELO6007BARUERI62070503***63040B6D"');
+INSERT INTO public.tb_order(created_at, "number", payment_status, status, total_amount, client_id, external_id, payment_qr_code_data) VALUES (now(), 2, 'AWAITING_PAYMENT', 'AWAITING_PAYMENT', 23, 2, 3, '"00020101021243650016COM.MERCADOLIBRE02013063638f1192a-5fd1-4180-a180-8bcae3556bc35204000053039865802BR5925IZABEL AAAA DE MELO6007BARUERI62070503***63040B6D"');
 
 -- INSERT ORDER PRODUCTS
 INSERT INTO public.tb_order_products(order_id, product_id) VALUES (1, 1);

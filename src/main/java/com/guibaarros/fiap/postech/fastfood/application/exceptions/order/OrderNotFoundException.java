@@ -6,6 +6,10 @@ public class OrderNotFoundException extends RuntimeException {
         super("pedido não encontrado com o id " + id);
     }
 
+    public OrderNotFoundException(final String field, final String value) {
+        super("pedido não encontrado com o campo " + field + " com valor " + value);
+    }
+
     public OrderNotFoundException(final String message) {
         super(message);
     }
