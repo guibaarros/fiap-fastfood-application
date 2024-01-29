@@ -27,7 +27,9 @@
 ## Objetivo
 
 Repositório para o desenvolvimento dos Tech Challenges da Postech FIAP em Arquitetura de Software.
+
 Grupo 75
+
 Integrante: Guilherme Henrique Rafael Junqueira de Barros
 
 ## Documentação
@@ -285,7 +287,8 @@ A collection do Postman referente à aplicação rodando no docker levou em cons
 As instruções para execução dos testes está presente [aqui](docs/test_instructions_techchallenge_2.md).
 
 ## Arquitetura
-Foi feito um vídeo apresentando a arquitetura pensada: Link
+Foi feito um vídeo apresentando a arquitetura pensada: [Explicação da Arquitetura - FIAP - PosTech - Arquitetura de Software 3SOAT - Grupo 75](https://youtu.be/gOXv3GMY5AQ)
+
 Esse é um desenho da arquitetura desenvolvida considerando o ambiente local: <br>
 ![arquitetura_local](./docs/assets/arquitetura_local.png)
 
