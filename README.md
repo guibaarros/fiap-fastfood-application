@@ -213,6 +213,8 @@ Dessa forma, foi feita uma collection do Postman que exemplifica um fluxo de fun
 
 ### Executando via docker-compose
 
+**NÃO** é necessário utilizar subir a app pelo docker-compose se ela já foi executada no Kubernetes
+
 ####  Ferramentas necessárias
 
 - docker
