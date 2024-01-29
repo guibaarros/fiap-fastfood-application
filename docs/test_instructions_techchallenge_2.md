@@ -29,13 +29,12 @@ Para que os testes partam de uma base já populada com uma massa mínima para os
 
 ### Execução das funcionalidades da aplicação
 Considerando os requisitos de entrega das APIs da segunda fase do Tech Challenge, temos os seguintes endpoints:<br>
-| API | URL | Request no Postman |
-|---|---|---|
-| Checkout do Pedido | POST http://localhost:32001/order | Números 13~18 |
-| Consultar status do pagamento | GET http://localhost:32001/order/{id}/payment | Números 21, 23, 25, 27, 29, 31, 33 |
-| Webhook de confirmação do pagamento | POST http://localhost:32001/mercadopago/webhook | Números 20, 22, 24, 26, 28, 30, 32 |
-| Consulta dos pedidos não finalizados | GET http://localhost:32001/order | Números 19, 50 |
-| Atualizar status do pedido | PATCH http://localhost:32001/order/{id} | Números 34~49 |
+APIs:
+- Checkout do Pedido: POST http://localhost:32001/order; Números 13~18
+- Consultar status do pagamento: GET http://localhost:32001/order/{id}/payment; Números 21, 23, 25, 27, 29, 31, 33 
+- Webhook de confirmação do pagamento: POST http://localhost:32001/mercadopago/webhook; Números 20, 22, 24, 26, 28, 30, 32 
+- Consulta dos pedidos não finalizados: GET http://localhost:32001/order; Números 19, 50 
+- Atualizar status do pedido: PATCH http://localhost:32001/order/{id}; Números 34~49 
 
 Para realizar a execução de um fluxo utilizando os endpoints desenvolvidos, foi criado um folder na collection do postman "Fluxo de Testes - Kubernetes" com uma ordem de execução das APIs: <br>
 

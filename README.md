@@ -20,6 +20,8 @@
       - [Parando a execução](#parando-a-execução-1)
       - [pgAdmin](#pgadmin-1)
       - [Carga inicial de dados](#carga-inicial-de-dados-1)
+  - [Instruções de testes](#instruções-de-testes)
+  - [Arquitetura](#arquitetura)
 
 
 ## Objetivo
@@ -34,19 +36,19 @@ Integrante: Guilherme Henrique Rafael Junqueira de Barros
 - [Egon.io](https://egon.io)
 - [Swagger Editor](https://editor.swagger.io)
 
-O repositório possui o diretório [docs](https://github.com/guibaarros/fastfood-fiap-postech/tree/main/docs) onde é versionada toda documentação do projeto. Atualmente, existem as seguintes documentações:
+O repositório possui o diretório [docs](docs) onde é versionada toda documentação do projeto. Atualmente, existem as seguintes documentações:
 
-- [Event Storytelling.md](https://github.com/guibaarros/fastfood-fiap-postech/blob/main/docs/Event%20Storytelling.md) - Descrição dos fluxos de negócio de identificação do cliente, pedido, pagamento, preparação e entrega do pedido ao cliente.
+- [Event Storytelling.md](docs/Event%20Storytelling.md) - Descrição dos fluxos de negócio de identificação do cliente, pedido, pagamento, preparação e entrega do pedido ao cliente.
 
 Para o Egon.io: 
-- [Domain Storytelling - Sistema de Pedidos - Lanchonete - Pedido e Pagamento.dst](https://github.com/guibaarros/fastfood-fiap-postech/blob/main/docs/Domain%20Storytelling%20-%20Sistema%20de%20Pedidos%20-%20Lanchonete%20-%20Pedido%20e%20Pagamento.dst) - Diagrama de Domain Storytelling do fluxo de pedido e pagamento.
-- [Domain Storytelling - Sistema de Pedidos - Lanchonete - Preparação e Entrega.dst](https://github.com/guibaarros/fastfood-fiap-postech/blob/main/docs/Domain%20Storytelling%20-%20Sistema%20de%20Pedidos%20-%20Lanchonete%20-%20Prepara%C3%A7%C3%A3o%20e%20Entrega.dst) - Diagrama de Domain Storytelling do fluxo de preparação e entrega do pedido.
+- [Domain Storytelling - Sistema de Pedidos - Lanchonete - Pedido e Pagamento.dst](docs/Domain%20Storytelling%20-%20Sistema%20de%20Pedidos%20-%20Lanchonete%20-%20Pedido%20e%20Pagamento.dst) - Diagrama de Domain Storytelling do fluxo de pedido e pagamento.
+- [Domain Storytelling - Sistema de Pedidos - Lanchonete - Preparação e Entrega.dst](docs/Domain%20Storytelling%20-%20Sistema%20de%20Pedidos%20-%20Lanchonete%20-%20Prepara%C3%A7%C3%A3o%20e%20Entrega.dst) - Diagrama de Domain Storytelling do fluxo de preparação e entrega do pedido.
 
 Collection do Postman:
-- [FIAP - Postech - Lanchonete.postman_collection.json](https://github.com/guibaarros/fastfood-fiap-postech/blob/main/docs/FIAP%20-%20Postech%20-%20Lanchonete.postman_collection.json)
+- [FIAP - Postech - Lanchonete.postman_collection.json](docs/FIAP%20-%20Postech%20-%20Lanchonete.postman_collection.json)
 
 Documentação OpenAPI para o Swagger:
-- [OpenAPI-Swagger.yml](https://github.com/guibaarros/fastfood-fiap-postech/blob/main/docs/OpenAPI-Swagger.yml)
+- [OpenAPI-Swagger.yml](docs/OpenAPI-Swagger.yml)
 
 
 Alem disso, o projeto foi documentado também no Miro, com um quadro contendo:
@@ -240,7 +242,7 @@ Para acesso à base, é necessário configurar um servidor com os seguintes dado
 
 ####  Carga inicial de dados
 
-Ao executar o ```docker-compose up -d```, o container do postgres executa os comandos presentes no arquivo [initial_data.sql](https://github.com/guibaarros/fastfood-fiap-postech/blob/development/.database/initial_data.sql), criando assim as tabelas necessárias para a execução da aplicação e uma pequena massa de dados para inicio dos testes. Nesse script são executados:
+Ao executar o ```docker-compose up -d```, o container do postgres executa os comandos presentes no arquivo [initial_data.sql](.database/initial_data.sql), criando assim as tabelas necessárias para a execução da aplicação e uma pequena massa de dados para inicio dos testes. Nesse script são executados:
 - Criação da tabela de clientes;
 - Criação da tabela de pedidos;
 - Criação da tabela de produtos;
@@ -256,3 +258,14 @@ Ao executar o ```docker-compose up -d```, o container do postgres executa os com
 
 A collection do Postman referente à aplicação rodando no docker levou em consideração esses dados cadastrados nessa carga inicial;
 </details>
+
+## Instruções de testes
+As instruções para execução dos testes está presente [aqui](docs/test_instructions_techchallenge_2.md).
+
+## Arquitetura
+Foi feito um vídeo apresentando a arquitetura pensada: Link
+Esse é um desenho da arquitetura desenvolvida considerando o ambiente local: <br>
+![arquitetura_local](./docs/assets/arquitetura_local.png)
+
+E considerando um deploy da aplicação na AWS, temos o seguinte desenho: <br>
+![arquitetura_aws](./docs/assets/arquitetura_aws.png)
