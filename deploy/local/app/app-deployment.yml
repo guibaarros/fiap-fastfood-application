@@ -19,7 +19,7 @@ spec:
         image: guibaarros/fastfood-fiap-postech:1.0.2
         env:
           - name: DB_HOSTNAME
-            value: svc-postgres
+            value: "postgres-fiap-fastfood-dev.cpacqskc8cbe.us-east-1.rds.amazonaws.com"
           - name: DB_USER
             value: postgres
           - name: DB_PASSWORD
