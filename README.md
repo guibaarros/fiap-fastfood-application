@@ -27,7 +27,9 @@
 ## Objetivo
 
 Repositório para o desenvolvimento dos Tech Challenges da Postech FIAP em Arquitetura de Software.
+
 Grupo 75
+
 Integrante: Guilherme Henrique Rafael Junqueira de Barros
 
 ## Documentação
@@ -116,7 +118,7 @@ O **Deployment** da aplicação contém as configurações de:
 - Um POD inicialmente executando a aplicação:
     - replicas: 1
 - Imagem presente no DockerHub a ser executada dentro do POD:
-    - guibaarros/fastfood-fiap-postech:1.0.2
+    - [guibaarros/fastfood-fiap-postech:1.0.2](https://hub.docker.com/layers/guibaarros/fastfood-fiap-postech/1.0.2/images/sha256-a31c1596f2e4d5136376d2cd84ea6c599f2a5063bfd94abcac02846222499b1d?context=repo)
 - Variáveis de ambiente de configuração de acesso ao banco de dados
     - DB_HOSTNAME;
     - DB_USER;
@@ -211,6 +213,8 @@ Dessa forma, foi feita uma collection do Postman que exemplifica um fluxo de fun
 
 ### Executando via docker-compose
 
+**NÃO** é necessário utilizar subir a app pelo docker-compose se ela já foi executada no Kubernetes
+
 ####  Ferramentas necessárias
 
 - docker
@@ -285,7 +289,8 @@ A collection do Postman referente à aplicação rodando no docker levou em cons
 As instruções para execução dos testes está presente [aqui](docs/test_instructions_techchallenge_2.md).
 
 ## Arquitetura
-Foi feito um vídeo apresentando a arquitetura pensada: Link
+Foi feito um vídeo apresentando a arquitetura pensada: [Explicação da Arquitetura - FIAP - PosTech - Arquitetura de Software 3SOAT - Grupo 75](https://youtu.be/gOXv3GMY5AQ)
+
 Esse é um desenho da arquitetura desenvolvida considerando o ambiente local: <br>
 ![arquitetura_local](./docs/assets/arquitetura_local.png)
 
