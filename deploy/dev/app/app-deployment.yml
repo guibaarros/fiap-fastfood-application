@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: fastfood-fiap-postech-dev
-        image: guibaarros/fastfood-fiap-postech:1.0.2
+        image: guibaarros/fastfood-fiap-postech:{{VERSION}}
         env:
           - name: DB_HOSTNAME
             valueFrom:

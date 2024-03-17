@@ -1,6 +1,5 @@
 name: "Integração Contínua"
 on:
-  push:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
@@ -18,15 +17,11 @@ jobs:
       - name: "Permissiona a execução do ./gradlew"
         run: chmod +x ./gradlew
       - name: "Executa os testes"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew test --info
 
   analise-estatica:
     name: "Análise Estática - Sonar Cloud"
     runs-on: ubuntu-latest
-    needs: [testes-unitarios]
     steps:
       - uses: actions/checkout@v3
         with:
@@ -51,14 +46,14 @@ jobs:
         run: chmod +x ./gradlew
       - name: "Executa o build e analisa o código"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew build sonar -x test --info
+        run: ./gradlew sonar -x test --info
 
   build:
     name: "Executa o build"
     runs-on: ubuntu-latest
-    needs: [analise-estatica]
+    needs: [testes-unitarios, analise-estatica]
     steps:
       - uses: actions/checkout@v3
         with:
@@ -69,8 +64,5 @@ jobs:
           java-version: 17
       - name: "Permissiona a execução do ./gradlew"
         run: chmod +x ./gradlew
-      - name: "Executa os testes"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: "Executa o build"
         run: ./gradlew build --info

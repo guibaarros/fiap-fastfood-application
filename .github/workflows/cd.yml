@@ -1,0 +1,155 @@
+name: "Delivery Contínuo"
+on:
+  push:
+    branches:
+      - "development"
+jobs:
+  testes-unitarios:
+    name: "Testes unitários"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: "Configura Java 17"
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: "Permissiona a execução do ./gradlew"
+        run: chmod +x ./gradlew
+      - name: "Executa os testes"
+        run: ./gradlew test --info
+
+  analise-estatica:
+    name: "Análise Estática - Sonar Cloud"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: "Configura Java 17"
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: "Adiciona cache aos pacotes do Sonar"
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: "Adiciona cache aos pacotes do Gradle"
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: "Permissiona a execução do ./gradlew"
+        run: chmod +x ./gradlew
+      - name: "Executa o build e analisa o código"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew sonar -x test --info
+
+  build:
+    name: "Executa o build"
+    runs-on: ubuntu-latest
+    needs: [testes-unitarios, analise-estatica]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: "Configura Java 17"
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: "Permissiona a execução do ./gradlew"
+        run: chmod +x ./gradlew
+      - name: "Executa os testes"
+        run: ./gradlew build --info
+
+  release-tag:
+    name: "Executa o release da versão"
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: "Configura o Git"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git --version
+          git config user.name "github-actions-cd"
+          git config user.email "<>"
+      - name: "Configura Java 17"
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: "Permissiona a execução do ./gradlew"
+        run: chmod +x ./gradlew
+      - name: "Executa o build"
+        run: ./gradlew build --info
+      - name: "Acrescenta o número da versão - patch"
+        run: ./gradlew bumpVersionPatch
+      - name: "Faz o release da Tag"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          export VERSION=$(grep -o '"version": *"[^"]*' version.json | grep -o '[^"]*$')
+          git status
+          git tag $VERSION
+          git commit -a -m "release da versão ${VERSION}"
+          git push
+          git push --tags
+      - name: "Faz login no Docker Hub"
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: "Faz o build e push da imagem no docker-hub"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          docker build -t ${{ secrets.DOCK,ER_HUB_USERNAME }}/fastfood-fiap-postech:$VERSION .
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/fastfood-fiap-postech:$VERSION
+
+  deploy-eks:
+    name: "Entrega a versão no EKS - Dev"
+    runs-on: ubuntu-latest
+    needs: [ release-tag ]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: "Configura as credenciais da AWS"
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: "Configura o Kubectl"
+        uses: Azure/setup-kubectl@v4.0.0
+      - name: "Configura o kubectl para o EKS"
+        run: aws eks --region us-east-1 update-kubeconfig --name eks-fiap-fastfood-dev
+      - name: "Lê o número da versão do arquivo"
+        run: |
+          export VERSION=$(grep -o '"version": *"[^"]*' version.json | grep -o '[^"]*$')
+      - name: "Injeta os secrets"
+        run: |
+          sed -i "s/{{DB_HOSTNAME_KEY}}/$(echo -n "${{ secrets.DATABASE_HOST_DEV}}" | base64)/g" ./deploy/app/dev/app-secret.yml
+          sed -i "s/{{DB_PORT_KEY}}/$(echo -n "${{ secrets.DATABASE_PORT_DEV}}" | base64)/g" ./deploy/app/dev/app-secret.yml
+          sed -i "s/{{DB_USERNAME_KEY}}/$(echo -n "${{ secrets.DATABASE_USERNAME_DEV}}" | base64)/g" ./deploy/app/dev/app-secret.yml
+          sed -i "s/{{DB_PASSWORD_KEY}}/$(echo -n "${{ secrets.DATABASE_PASSWORD_DEV}}" | base64)/g" ./deploy/app/dev/app-secret.yml
+      - name: "Injeta a versão no deployment"
+        run: |
+          sed -i "s/{{VERSION}}/$(echo -n "${VERSION}")/g" ./deploy/app/dev/app-deployment.yml
+      - name: "Aplica os arquivos do K8S no EKS"
+        run: |
+          kubectl apply \
+           -f ./deploy/app/dev/app-secret.yml \
+           -f ./deploy/app/dev/app-deployment.yml \
+           -f ./deploy/app/dev/app-service-loadbalancer.yml \
+           -f ./deploy/app/dev/app-hpa.yml
