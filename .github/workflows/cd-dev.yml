@@ -46,9 +46,6 @@ jobs:
       - name: "Permissiona a execução do ./gradlew"
         run: chmod +x ./gradlew
       - name: "Executa o build e analisa o código"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew sonar -x test --info
 
   build:
@@ -65,7 +62,7 @@ jobs:
           java-version: 17
       - name: "Permissiona a execução do ./gradlew"
         run: chmod +x ./gradlew
-      - name: "Executa os testes"
+      - name: "Executa o build"
         run: ./gradlew build -x test --info
 
   release-tag:
