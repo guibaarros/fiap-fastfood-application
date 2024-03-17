@@ -141,7 +141,7 @@ jobs:
         run: echo "::set-output name=hostname::${{ secrets.DATABASE_HOST_DEV }}"
       - name: "Injeta os secrets"
         run: |
-          sed -i "s/{{DB_HOSTNAME_KEY}}/$(echo -n ${{ steps.get-secret.outputs.hostname }} | base64)/g" ./deploy/dev/app/app-secret.yml
+          sed -i "s/{{DB_HOSTNAME_KEY}}/$(echo -n ${{ steps.host-secret.outputs.hostname }} | base64)/g" ./deploy/dev/app/app-secret.yml
       - name: "Injeta a versão no deployment"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
