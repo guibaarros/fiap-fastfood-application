@@ -68,59 +68,59 @@ jobs:
   #     - name: "Executa os testes"
   #       run: ./gradlew build -x test --info
 
-  release-tag:
-    name: "Executa o release da versão"
-    runs-on: ubuntu-latest
-    # needs: [ build ]
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: "Configura o Git"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git --version
-          git config user.name "github-actions-cd"
-          git config user.email "<>"
-      - name: "Configura Java 17"
-        uses: actions/setup-java@v1
-        with:
-          java-version: 17
-      - name: "Permissiona a execução do ./gradlew"
-        run: chmod +x ./gradlew
-      - name: "Executa o build"
-        run: ./gradlew build -x test --info
-      - name: "Faz o release da Tag"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          current_version=$(git tag | sort -V | tail -n 1)
-          major=$(echo $current_version | cut -d. -f1)
-          minor=$(echo $current_version | cut -d. -f2)
-          patch=$(echo $current_version | cut -d. -f3)
-          ((patch++))
-          export VERSION="${major}.${minor}.${patch}"
-          git branch
-          git tag $VERSION
-          git push --tags
-      - name: "Faz login no Docker Hub"
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      - name: "Faz o build e push da imagem no docker-hub"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          export VERSION=$(git tag | sort -V | tail -n 1)
-          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/fastfood-fiap-postech:$VERSION .
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/fastfood-fiap-postech:$VERSION
+  # release-tag:
+  #   name: "Executa o release da versão"
+  #   runs-on: ubuntu-latest
+  #   # needs: [ build ]
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
+  #     - name: "Configura o Git"
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: |
+  #         git --version
+  #         git config user.name "github-actions-cd"
+  #         git config user.email "<>"
+  #     - name: "Configura Java 17"
+  #       uses: actions/setup-java@v1
+  #       with:
+  #         java-version: 17
+  #     - name: "Permissiona a execução do ./gradlew"
+  #       run: chmod +x ./gradlew
+  #     - name: "Executa o build"
+  #       run: ./gradlew build -x test --info
+  #     - name: "Faz o release da Tag"
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: |
+  #         current_version=$(git tag | sort -V | tail -n 1)
+  #         major=$(echo $current_version | cut -d. -f1)
+  #         minor=$(echo $current_version | cut -d. -f2)
+  #         patch=$(echo $current_version | cut -d. -f3)
+  #         ((patch++))
+  #         export VERSION="${major}.${minor}.${patch}"
+  #         git branch
+  #         git tag $VERSION
+  #         git push --tags
+  #     - name: "Faz login no Docker Hub"
+  #       uses: docker/login-action@v2
+  #       with:
+  #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
+  #         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+  #     - name: "Faz o build e push da imagem no docker-hub"
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: |
+  #         export VERSION=$(git tag | sort -V | tail -n 1)
+  #         docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/fastfood-fiap-postech:$VERSION .
+  #         docker push ${{ secrets.DOCKER_HUB_USERNAME }}/fastfood-fiap-postech:$VERSION
 
   deploy-eks:
     name: "Entrega a versão no EKS - Dev"
     runs-on: ubuntu-latest
-    needs: [ release-tag ]
+    # needs: [ release-tag ]
     steps:
       - uses: actions/checkout@v3
         with:
@@ -138,16 +138,16 @@ jobs:
         run: aws eks --region us-east-1 update-kubeconfig --name eks-fiap-fastfood-dev
       - name: "Injeta os secrets"
         run: |
-          sed -i "s/{{DB_HOSTNAME_KEY}}/$(echo -n "${{ secrets.DATABASE_HOST_DEV}}" | base64)/g" ./deploy/app/dev/app-secret.yml
-          sed -i "s/{{DB_PORT_KEY}}/$(echo -n "${{ secrets.DATABASE_PORT_DEV}}" | base64)/g" ./deploy/app/dev/app-secret.yml
-          sed -i "s/{{DB_USERNAME_KEY}}/$(echo -n "${{ secrets.DATABASE_USERNAME_DEV}}" | base64)/g" ./deploy/app/dev/app-secret.yml
-          sed -i "s/{{DB_PASSWORD_KEY}}/$(echo -n "${{ secrets.DATABASE_PASSWORD_DEV}}" | base64)/g" ./deploy/app/dev/app-secret.yml
+          sed -i "s/{{DB_HOSTNAME_KEY}}/$(echo -n ${{ secrets.DATABASE_HOST_DEV}} | base64)/g" ./deploy/app/dev/app-secret.yml
+          sed -i "s/{{DB_PORT_KEY}}/$(echo -n ${{ secrets.DATABASE_PORT_DEV}} | base64)/g" ./deploy/app/dev/app-secret.yml
+          sed -i "s/{{DB_USERNAME_KEY}}/$(echo -n ${{ secrets.DATABASE_USERNAME_DEV}} | base64)/g" ./deploy/app/dev/app-secret.yml
+          sed -i "s/{{DB_PASSWORD_KEY}}/$(echo -n ${{ secrets.DATABASE_PASSWORD_DEV}} | base64)/g" ./deploy/app/dev/app-secret.yml
       - name: "Injeta a versão no deployment"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export VERSION=$(git tag | sort -V | tail -n 1)
-          sed -i "s/{{VERSION}}/$(echo -n "${VERSION}")/g" ./deploy/app/dev/app-deployment.yml
+          sed -i "s/{{VERSION}}/$(echo -n ${VERSION})/g" ./deploy/app/dev/app-deployment.yml
       - name: "Aplica os arquivos do K8S no EKS"
         run: |
           kubectl apply \
