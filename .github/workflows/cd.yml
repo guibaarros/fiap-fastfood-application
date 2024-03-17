@@ -112,7 +112,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          docker build -t ${{ secrets.DOCK,ER_HUB_USERNAME }}/fastfood-fiap-postech:$VERSION .
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/fastfood-fiap-postech:$VERSION .
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/fastfood-fiap-postech:$VERSION
 
   deploy-eks:
