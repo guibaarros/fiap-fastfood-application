@@ -135,25 +135,25 @@ jobs:
       - name: "Configura o Kubectl"
         uses: Azure/setup-kubectl@v4.0.0
       - name: "Configura o kubectl para o EKS"
-        run: aws eks --region us-east-1 update-kubeconfig --name eks-fiap-fastfood-dev
-      # - name: "Buscar o host do banco"
-      #   id: host-secret
-      #   run: echo "::set-output name=hostname::${{ secrets.DATABASE_HOST_DEV }}"
+        run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name eks-fiap-fastfood-dev
       - name: "Injeta os secrets"
         run: |
-          sed "s/{{DB_HOSTNAME_KEY}}/${{ secrets.DATABASE_HOST_DEV }}/g" ./deploy/dev/app/app-secret.yml
-          cat ./deploy/dev/app/app-secret.yml
+          sed -i 
+          -e "s/{{DB_HOSTNAME_KEY}}/${{ secrets.DATABASE_HOST_DEV }}/g" \
+          -e "s/{{DB_PORT_KEY}}/${{ secrets.DATABASE_PORT_DEV }}/g" \
+          -e "s/{{DB_USERNAME_KEY}}/${{ secrets.DATABASE_USERNAME_DEV }}/g" \
+          -e "s/{{DB_PASSWORD_KEY}}/${{ secrets.DATABASE_PASSWORD_DEV }}/g" \          
+          ./deploy/dev/app/app-secret.yml 
       - name: "Injeta a versão no deployment"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export VERSION=$(git tag | sort -V | tail -n 1)
           sed -i "s/{{VERSION}}/$(echo -n ${VERSION})/g" ./deploy/dev/app/app-deployment.yml
-          cat ./deploy/dev/app/app-deployment.yml
-      # - name: "Aplica os arquivos do K8S no EKS"
-      #   run: |
-      #     kubectl apply \
-      #      -f ./deploy/app/dev/app-secret.yml \
-      #      -f ./deploy/app/dev/app-deployment.yml \
-      #      -f ./deploy/app/dev/app-service-loadbalancer.yml \
-      #      -f ./deploy/app/dev/app-hpa.yml
+      - name: "Aplica os arquivos do K8S no EKS"
+        run: |
+          kubectl apply \
+           -f ./deploy/app/dev/app-secret.yml \
+           -f ./deploy/app/dev/app-deployment.yml \
+           -f ./deploy/app/dev/app-service-loadbalancer.yml \
+           -f ./deploy/app/dev/app-hpa.yml
