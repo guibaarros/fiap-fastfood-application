@@ -138,12 +138,10 @@ jobs:
         run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name eks-fiap-fastfood-dev
       - name: "Injeta os secrets"
         run: |
-          sed -i 
-          -e "s/{{DB_HOSTNAME_KEY}}/${{ secrets.DATABASE_HOST_DEV }}/g" \
-          -e "s/{{DB_PORT_KEY}}/${{ secrets.DATABASE_PORT_DEV }}/g" \
-          -e "s/{{DB_USERNAME_KEY}}/${{ secrets.DATABASE_USERNAME_DEV }}/g" \
-          -e "s/{{DB_PASSWORD_KEY}}/${{ secrets.DATABASE_PASSWORD_DEV }}/g" \          
-          ./deploy/dev/app/app-secret.yml 
+          sed -i "s/{{DB_HOSTNAME_KEY}}/${{ secrets.DATABASE_HOST_DEV }}/g" ./deploy/dev/app/app-secret.yml 
+          sed -i "s/{{DB_PORT_KEY}}/${{ secrets.DATABASE_PORT_DEV }}/g" ./deploy/dev/app/app-secret.yml 
+          sed -i "s/{{DB_USERNAME_KEY}}/${{ secrets.DATABASE_USERNAME_DEV }}/g" ./deploy/dev/app/app-secret.yml 
+          sed -i "s/{{DB_PASSWORD_KEY}}/${{ secrets.DATABASE_PASSWORD_DEV }}/g" ./deploy/dev/app/app-secret.yml         
       - name: "Injeta a versão no deployment"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
