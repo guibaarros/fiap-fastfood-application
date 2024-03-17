@@ -143,7 +143,7 @@ jobs:
         run: |
           db_host=$(printf "%s" "postgres-fiap-fastfood-dev.cpacqskc8cbe.us-east-1.rds.amazonaws.com")
           db_host_base64=$(printf "%s" "$db_host" | base64)
-          sed -i "s/{{DB_HOSTNAME_KEY}}/$(printf "%s" "$db_host_base64")/g" ./deploy/dev/app/app-secret.yml
+          sed "s/{{DB_HOSTNAME_KEY}}/$(printf "%s" "$db_host_base64")/g" ./deploy/dev/app/app-secret.yml
           cat ./deploy/dev/app/app-secret.yml
       - name: "Injeta a versão no deployment"
         env:
