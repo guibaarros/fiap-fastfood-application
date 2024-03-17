@@ -136,12 +136,15 @@ jobs:
         uses: Azure/setup-kubectl@v4.0.0
       - name: "Configura o kubectl para o EKS"
         run: aws eks --region us-east-1 update-kubeconfig --name eks-fiap-fastfood-dev
-      - name: "Buscar o host do banco"
-        id: host-secret
-        run: echo "::set-output name=hostname::${{ secrets.DATABASE_HOST_DEV }}"
+      # - name: "Buscar o host do banco"
+      #   id: host-secret
+      #   run: echo "::set-output name=hostname::${{ secrets.DATABASE_HOST_DEV }}"
       - name: "Injeta os secrets"
         run: |
-          sed -i "s/{{DB_HOSTNAME_KEY}}/$(echo -n ${{ steps.host-secret.outputs.hostname }} | base64)/g" ./deploy/dev/app/app-secret.yml
+          db_host=$(printf "%s" "${{ secrets.DATABASE_HOST_DEV }}")
+          db_host_base64=$(printf "%s" "$db_host" | base64)
+          sed -i "s/{{DB_HOSTNAME_KEY}}/$(printf "%s" "$db_host_base64")/g" ./deploy/dev/app/app-secret.yml
+          cat ./deploy/dev/app/app-secret.yml
       - name: "Injeta a versão no deployment"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
