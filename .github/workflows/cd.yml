@@ -151,7 +151,7 @@ jobs:
       - name: "Aplica os arquivos do K8S no EKS"
         run: |
           kubectl apply \
-           -f ./deploy/app/dev/app-secret.yml \
-           -f ./deploy/app/dev/app-deployment.yml \
-           -f ./deploy/app/dev/app-service-loadbalancer.yml \
-           -f ./deploy/app/dev/app-hpa.yml
+           -f ./deploy/dev/app/app-secret.yml \
+           -f ./deploy/dev/app/app-deployment.yml \
+           -f ./deploy/dev/app/app-service-loadbalancer.yml \
+           -f ./deploy/dev/app/app-hpa.yml
