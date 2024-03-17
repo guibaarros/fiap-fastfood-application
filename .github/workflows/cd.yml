@@ -141,7 +141,7 @@ jobs:
       #   run: echo "::set-output name=hostname::${{ secrets.DATABASE_HOST_DEV }}"
       - name: "Injeta os secrets"
         run: |
-          db_host=$(printf "%s" "postgres-fiap-fastfood-dev.cpacqskc8cbe.us-east-1.rds.amazonaws.com")
+          db_host=$(printf "%s" "postgres-fiap-fastfood-dev.cpacqskc8cbe.rds.amazonaws.com")
           db_host_base64=$(printf "%s" "$db_host" | base64)
           sed "s/{{DB_HOSTNAME_KEY}}/$(printf "%s" "$db_host_base64")/g" ./deploy/dev/app/app-secret.yml
           cat ./deploy/dev/app/app-secret.yml
