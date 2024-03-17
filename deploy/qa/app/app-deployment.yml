@@ -1,31 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fastfood-fiap-postech
+  name: fastfood-fiap-postech-qa
   labels:
-    app: fastfood-fiap-postech
+    app: fastfood-fiap-postech-qa
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fastfood-fiap-postech
+      app: fastfood-fiap-postech-qa
   template:
     metadata:
       labels:
-        app: fastfood-fiap-postech
+        app: fastfood-fiap-postech-qa
     spec:
       containers:
-      - name: fastfood-fiap-postech
-        image: guibaarros/fastfood-fiap-postech:1.0.2
+      - name: fastfood-fiap-postech-qa
+        image: guibaarros/fastfood-fiap-postech:{{VERSION}}
         env:
           - name: DB_HOSTNAME
-            value: svc-postgres
+            valueFrom:
+              secretKeyRef:
+                name: postgres-data-secret-qa
+                key: DB_HOSTNAME
           - name: DB_USER
-            value: postgres
+            valueFrom:
+              secretKeyRef:
+                name: postgres-data-secret-qa
+                key: DB_USERNAME
           - name: DB_PASSWORD
-            value: abcd1234
+            valueFrom:
+              secretKeyRef:
+                name: postgres-data-secret-qa
+                key: DB_PASSWORD
           - name: DB_PORT
-            value: "5432"
+            valueFrom:
+              secretKeyRef:
+                name: postgres-data-secret-qa
+                key: DB_PORT
         livenessProbe:
           httpGet:
             path: /actuator/health
