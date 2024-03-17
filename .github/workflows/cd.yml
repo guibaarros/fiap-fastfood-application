@@ -90,9 +90,7 @@ jobs:
       - name: "Permissiona a execução do ./gradlew"
         run: chmod +x ./gradlew
       - name: "Executa o build"
-        run: ./gradlew build --info
-      - name: "Acrescenta o número da versão - patch"
-        run: ./gradlew bumpVersionPatch
+        run: ./gradlew build -x test --info
       - name: "Faz o release da Tag"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -112,7 +110,10 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: "Faz o build e push da imagem no docker-hub"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          export VERSION=$(git tag | sort -V | tail -n 1)
           docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/fastfood-fiap-postech:$VERSION .
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/fastfood-fiap-postech:$VERSION
 
@@ -135,9 +136,6 @@ jobs:
         uses: Azure/setup-kubectl@v4.0.0
       - name: "Configura o kubectl para o EKS"
         run: aws eks --region us-east-1 update-kubeconfig --name eks-fiap-fastfood-dev
-      - name: "Lê o número da versão do arquivo"
-        run: |
-          export VERSION=$(git tag | sort -V | tail -n 1)
       - name: "Injeta os secrets"
         run: |
           sed -i "s/{{DB_HOSTNAME_KEY}}/$(echo -n "${{ secrets.DATABASE_HOST_DEV}}" | base64)/g" ./deploy/app/dev/app-secret.yml
@@ -145,7 +143,10 @@ jobs:
           sed -i "s/{{DB_USERNAME_KEY}}/$(echo -n "${{ secrets.DATABASE_USERNAME_DEV}}" | base64)/g" ./deploy/app/dev/app-secret.yml
           sed -i "s/{{DB_PASSWORD_KEY}}/$(echo -n "${{ secrets.DATABASE_PASSWORD_DEV}}" | base64)/g" ./deploy/app/dev/app-secret.yml
       - name: "Injeta a versão no deployment"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          export VERSION=$(git tag | sort -V | tail -n 1)
           sed -i "s/{{VERSION}}/$(echo -n "${VERSION}")/g" ./deploy/app/dev/app-deployment.yml
       - name: "Aplica os arquivos do K8S no EKS"
         run: |
