@@ -97,11 +97,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          export VERSION=$(grep -o '"version": *"[^"]*' version.json | grep -o '[^"]*$')
-          git status
+          current_version=$(git tag | sort -V | tail -n 1)
+          major=$(echo $VERSION | cut -d. -f1)
+          minor=$(echo $VERSION | cut -d. -f2)
+          patch=$(echo $VERSION | cut -d. -f3)
+          ((patch++))
+          export VERSION=nova_tag="${major}.${minor}.${patch}"
+          git branch
           git tag $VERSION
-          git commit -a -m "release da versão ${VERSION}"
-          git push
           git push --tags
       - name: "Faz login no Docker Hub"
         uses: docker/login-action@v2
