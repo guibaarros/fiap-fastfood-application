@@ -2,7 +2,7 @@ name: "Delivery Contínuo"
 on:
   push:
     branches:
-      - "development"
+      - "main"
 jobs:
   # testes-unitarios:
   #   name: "Testes unitários"
