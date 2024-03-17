@@ -1,9 +1,8 @@
 name: "Delivery Contínuo"
 on:
-  workflow_run:
-#   push:
-#     branches:
-#       - "development"
+  push:
+    branches:
+      - "development"
 jobs:
   # testes-unitarios:
   #   name: "Testes unitários"
