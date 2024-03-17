@@ -1,4 +1,4 @@
-name: "Delivery Contínuo"
+name: "Delivery Contínuo - DEV"
 on:
   push:
     branches:
@@ -54,7 +54,7 @@ jobs:
   build:
     name: "Executa o build"
     runs-on: ubuntu-latest
-    # needs: [testes-unitarios, analise-estatica]
+    needs: [testes-unitarios, analise-estatica]
     steps:
       - uses: actions/checkout@v3
         with:
@@ -71,7 +71,7 @@ jobs:
   release-tag:
     name: "Executa o release da versão"
     runs-on: ubuntu-latest
-    # needs: [ build ]
+    needs: [ build ]
     steps:
       - uses: actions/checkout@v3
         with:
@@ -120,7 +120,7 @@ jobs:
   deploy-eks:
     name: "Entrega a versão no EKS - Dev"
     runs-on: ubuntu-latest
-    # needs: [ release-tag ]
+    needs: [ release-tag ]
     steps:
       - uses: actions/checkout@v3
         with:
