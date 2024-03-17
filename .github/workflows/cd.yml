@@ -141,9 +141,9 @@ jobs:
       #   run: echo "::set-output name=hostname::${{ secrets.DATABASE_HOST_DEV }}"
       - name: "Injeta os secrets"
         run: |
-          db_host=$(printf "%s" "${{ secrets.DATABASE_HOST_DEV }}")
+          db_host=$(printf "%s" "${{ secrets.DATABASE_PORT_DEV }}")
           db_host_base64=$(printf "%s" "$db_host" | base64)
-          sed -i "s/{{DB_HOSTNAME_KEY}}/$(printf "%s" "$db_host_base64")/g" ./deploy/dev/app/app-secret.yml
+          sed -i "s/{{DB_PORT_KEY}}/$(printf "%s" "$db_host_base64")/g" ./deploy/dev/app/app-secret.yml
           cat ./deploy/dev/app/app-secret.yml
       - name: "Injeta a versão no deployment"
         env:
