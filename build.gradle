@@ -66,8 +66,3 @@ sonar {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-
-tasks.register('releaseVersion') {
-	dependsOn 'bumpVersionPatch'
-	println("testando a task release version")
-}
