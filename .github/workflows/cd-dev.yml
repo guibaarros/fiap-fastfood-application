@@ -46,6 +46,8 @@ jobs:
       - name: "Permissiona a execução do ./gradlew"
         run: chmod +x ./gradlew
       - name: "Executa o build e analisa o código"
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew sonar -x test --info
 
   build:
