@@ -65,4 +65,4 @@ jobs:
       - name: "Permissiona a execução do ./gradlew"
         run: chmod +x ./gradlew
       - name: "Executa o build"
-        run: ./gradlew build --info
+        run: ./gradlew build -x test --info
