@@ -38,6 +38,11 @@ spec:
               secretKeyRef:
                 name: postgres-data-secret-dev
                 key: DB_PORT
+          - name: API_GATEWAY_URL
+            valueFrom:
+              secretKeyRef:
+                name: api-gateway-data-secret-dev
+                key: API_GATEWAY_URL
         livenessProbe:
           httpGet:
             path: /actuator/health

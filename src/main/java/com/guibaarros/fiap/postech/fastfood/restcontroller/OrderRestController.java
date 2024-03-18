@@ -1,14 +1,14 @@
-package com.guibaarros.fiap.postech.fastfood.interfaces;
+package com.guibaarros.fiap.postech.fastfood.restcontroller;
 
-import com.guibaarros.fiap.postech.fastfood.infrastructure.web.exceptionhandler.ErrorDTO;
 import com.guibaarros.fiap.postech.fastfood.application.dtos.order.OrderPaymentStatusResponseDTO;
 import com.guibaarros.fiap.postech.fastfood.application.dtos.order.OrderRequestDTO;
 import com.guibaarros.fiap.postech.fastfood.application.dtos.order.OrderResponseDTO;
 import com.guibaarros.fiap.postech.fastfood.application.dtos.order.UpdateOrderStatusDTO;
-import com.guibaarros.fiap.postech.fastfood.application.usecases.order.CreateOrderUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.usecases.order.GetOrderPaymentStatusUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.usecases.order.ListQueuedOrderUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.usecases.order.UpdateOrderStatusUseCase;
+import com.guibaarros.fiap.postech.fastfood.infrastructure.web.exceptionhandler.ErrorDTO;
+import com.guibaarros.fiap.postech.fastfood.interfaces.order.OrderController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,11 +27,12 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/order")
@@ -39,9 +40,9 @@ import java.util.Objects;
 @Tag(name = "Order Controller")
 @Validated
 @Slf4j
-public class OrderController {
+public class OrderRestController {
 
-    private final CreateOrderUseCase createOrderUseCase;
+    private final OrderController orderController;
     private final ListQueuedOrderUseCase listQueuedOrderUseCase;
     private final GetOrderPaymentStatusUseCase getOrderPaymentStatusUseCase;
     private final UpdateOrderStatusUseCase updateOrderStatusUseCase;
@@ -55,10 +56,11 @@ public class OrderController {
     })
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OrderResponseDTO> createOrder(
+            @RequestHeader final Map<String, String> headers,
             @Valid @RequestBody final OrderRequestDTO orderRequestDTO) {
 
         log.info("create new order; orderRequestDTO={}", orderRequestDTO);
-        final OrderResponseDTO orderResponseDTO = createOrderUseCase(orderRequestDTO);
+        final OrderResponseDTO orderResponseDTO = orderController.createOrder(headers, orderRequestDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(orderResponseDTO);
     }
@@ -124,15 +126,4 @@ public class OrderController {
                 .updateOrderStatus(id, updateOrderStatusDTO.getStatus());
         return ResponseEntity.ok(orderResponseDTO);
     }
-
-    private OrderResponseDTO createOrderUseCase(final OrderRequestDTO orderRequestDTO) {
-        if (Objects.isNull(orderRequestDTO.getClientId())) {
-            log.info("create new order without client");
-            return createOrderUseCase.createOrder(orderRequestDTO.getProductIds());
-        }
-
-        log.info("create new order with client; orderRequestDTO.getClientId()={}", orderRequestDTO.getClientId());
-        return createOrderUseCase.createOrder(orderRequestDTO.getClientId(), orderRequestDTO.getProductIds());
-    }
-
 }

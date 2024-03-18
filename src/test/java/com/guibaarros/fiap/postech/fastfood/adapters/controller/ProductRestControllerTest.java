@@ -3,7 +3,7 @@ package com.guibaarros.fiap.postech.fastfood.adapters.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.guibaarros.fiap.postech.fastfood.application.dtos.product.ProductRequestDTO;
 import com.guibaarros.fiap.postech.fastfood.application.dtos.product.ProductResponseDTO;
-import com.guibaarros.fiap.postech.fastfood.interfaces.ProductController;
+import com.guibaarros.fiap.postech.fastfood.restcontroller.ProductRestController;
 import com.guibaarros.fiap.postech.fastfood.domain.entities.product.ProductValueObject;
 import com.guibaarros.fiap.postech.fastfood.domain.entities.product.enums.ProductCategory;
 import com.guibaarros.fiap.postech.fastfood.application.exceptions.product.InvalidProductCategoryException;
@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-class ProductControllerTest {
+class ProductRestControllerTest {
 
     @Mock
     private CreateProductUseCase createProductUseCase;
@@ -45,7 +45,7 @@ class ProductControllerTest {
     private ObjectMapper objectMapper;
 
     @InjectMocks
-    private ProductController productController;
+    private ProductRestController productRestController;
 
     @Test
     void createProduct() throws IOException {
@@ -84,7 +84,7 @@ class ProductControllerTest {
                 .thenReturn(productResponseDTO);
 
         final ResponseEntity<ProductResponseDTO> actualResponseEntity =
-                productController.createProduct(requestBody, null);
+                productRestController.createProduct(requestBody, null);
 
         Assertions.assertEquals(expectedResponseEntity, actualResponseEntity);
     }
@@ -127,7 +127,7 @@ class ProductControllerTest {
                 .thenReturn(productResponseDTO);
 
         final ResponseEntity<ProductResponseDTO> actualResponseEntity =
-                productController.updateProduct(id, requestBody, null);
+                productRestController.updateProduct(id, requestBody, null);
 
         Assertions.assertEquals(expectedResponseEntity, actualResponseEntity);
     }
@@ -139,7 +139,7 @@ class ProductControllerTest {
         Mockito.doNothing().when(deleteProductUseCase).delete(Mockito.eq(id));
         final ResponseEntity<Void> expectedResponseEntity = ResponseEntity.ok().build();
 
-        final ResponseEntity<Void> actualResponseEntity = productController.deleteProduct(id);
+        final ResponseEntity<Void> actualResponseEntity = productRestController.deleteProduct(id);
 
         Assertions.assertEquals(expectedResponseEntity, actualResponseEntity);
     }
@@ -167,7 +167,7 @@ class ProductControllerTest {
         Mockito.when(findProductByCategoryUseCase.findProductByCategory(Mockito.eq(category)))
                 .thenReturn(productResponseDTOList);
 
-        final ResponseEntity<List<ProductResponseDTO>> actualResponseEntity = productController.findProductsByCategory(stringCategory);
+        final ResponseEntity<List<ProductResponseDTO>> actualResponseEntity = productRestController.findProductsByCategory(stringCategory);
 
         Assertions.assertEquals(expectedResponseEntity, actualResponseEntity);
     }
@@ -177,6 +177,6 @@ class ProductControllerTest {
         final String stringCategory = "LANCHE";
 
         Assertions.assertThrows(InvalidProductCategoryException.class,
-                () -> productController.findProductsByCategory(stringCategory));
+                () -> productRestController.findProductsByCategory(stringCategory));
     }
 }

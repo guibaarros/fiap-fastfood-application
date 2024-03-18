@@ -1,4 +1,4 @@
-package com.guibaarros.fiap.postech.fastfood.interfaces;
+package com.guibaarros.fiap.postech.fastfood.restcontroller;
 
 import com.guibaarros.fiap.postech.fastfood.infrastructure.web.exceptionhandler.ErrorDTO;
 import com.guibaarros.fiap.postech.fastfood.application.dtos.webhook.MercadoPagoWebhookRequestDTO;
