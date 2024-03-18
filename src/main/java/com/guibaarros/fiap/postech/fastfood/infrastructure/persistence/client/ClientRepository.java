@@ -3,6 +3,7 @@ package com.guibaarros.fiap.postech.fastfood.infrastructure.persistence.client;
 import com.guibaarros.fiap.postech.fastfood.domain.entities.client.Client;
 import com.guibaarros.fiap.postech.fastfood.domain.entities.client.ClientValueObject;
 import com.guibaarros.fiap.postech.fastfood.domain.repository.client.FindClientByCpfPort;
+import com.guibaarros.fiap.postech.fastfood.domain.repository.client.FindClientByEmailPort;
 import com.guibaarros.fiap.postech.fastfood.domain.repository.client.FindClientByIdPort;
 import com.guibaarros.fiap.postech.fastfood.domain.repository.client.SaveClientPort;
 import com.guibaarros.fiap.postech.fastfood.domain.repository.client.ValidateClientValueObjectPort;
@@ -17,7 +18,8 @@ public class ClientRepository implements
         SaveClientPort,
         FindClientByCpfPort,
         ValidateClientValueObjectPort,
-        FindClientByIdPort {
+        FindClientByIdPort,
+        FindClientByEmailPort {
 
     private final ClientJpaRepository repository;
 
@@ -43,5 +45,10 @@ public class ClientRepository implements
     @Override
     public Optional<Client> findById(Long id) {
         return repository.findById(id);
+    }
+
+    @Override
+    public Optional<Client> findByEmail(final String email) {
+        return repository.findByEmail(email);
     }
 }

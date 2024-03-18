@@ -5,7 +5,7 @@ import com.guibaarros.fiap.postech.fastfood.application.dtos.order.OrderResponse
 import com.guibaarros.fiap.postech.fastfood.application.usecases.order.ConfirmPaymentUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.usecases.order.CreateOrderUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.usecases.order.ListQueuedOrderUseCase;
-import com.guibaarros.fiap.postech.fastfood.interfaces.OrderController;
+import com.guibaarros.fiap.postech.fastfood.restcontroller.OrderRestController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,10 +18,12 @@ import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @ExtendWith(MockitoExtension.class)
-class OrderControllerTest {
+class OrderRestControllerTest {
 
     @Mock
     private CreateOrderUseCase createOrderUseCase;
@@ -33,12 +35,15 @@ class OrderControllerTest {
     private ConfirmPaymentUseCase confirmPaymentUseCase;
 
     @InjectMocks
-    private OrderController orderController;
+    private OrderRestController orderRestController;
 
     @Test
     void createOrder() {
         final Long clientId = 1L;
         final List<Long> productList = Collections.singletonList(1L);
+
+        final Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer token.example.signature");
 
         final OrderRequestDTO orderRequestDTO = new OrderRequestDTO();
         orderRequestDTO.setClientId(clientId);
@@ -56,7 +61,7 @@ class OrderControllerTest {
         final ResponseEntity<OrderResponseDTO> expectedResponseEntity =
                 ResponseEntity.status(HttpStatus.CREATED).body(orderResponseDTO);
 
-        final ResponseEntity<OrderResponseDTO> actualResponseEntity = orderController.createOrder(orderRequestDTO);
+        final ResponseEntity<OrderResponseDTO> actualResponseEntity = orderRestController.createOrder(headers, orderRequestDTO);
 
         Assertions.assertEquals(expectedResponseEntity, actualResponseEntity);
         Mockito.verify(createOrderUseCase, Mockito.times(0)).createOrder(Mockito.any());
@@ -65,6 +70,7 @@ class OrderControllerTest {
     @Test
     void createOrderWithoutClient() {
         final List<Long> productList = Collections.singletonList(1L);
+        final Map<String, String> headers = new HashMap<>();
 
         final OrderRequestDTO orderRequestDTO = new OrderRequestDTO();
         orderRequestDTO.setProductIds(productList);
@@ -80,7 +86,7 @@ class OrderControllerTest {
         final ResponseEntity<OrderResponseDTO> expectedResponseEntity =
                 ResponseEntity.status(HttpStatus.CREATED).body(orderResponseDTO);
 
-        final ResponseEntity<OrderResponseDTO> actualResponseEntity = orderController.createOrder(orderRequestDTO);
+        final ResponseEntity<OrderResponseDTO> actualResponseEntity = orderRestController.createOrder(headers, orderRequestDTO);
 
         Assertions.assertEquals(expectedResponseEntity, actualResponseEntity);
         Mockito.verify(createOrderUseCase, Mockito.times(0))
@@ -100,24 +106,8 @@ class OrderControllerTest {
 
         Mockito.when(listQueuedOrderUseCase.listQueuedOrderUseCase()).thenReturn(orderResponseDTOList);
 
-        final ResponseEntity<List<OrderResponseDTO>> actualResponseEntity = orderController.findOrderInPreparation();
+        final ResponseEntity<List<OrderResponseDTO>> actualResponseEntity = orderRestController.findOrderInPreparation();
 
         Assertions.assertEquals(expectedResponseEntity, actualResponseEntity);
     }
-
-//    @Test
-//    void confirmOrderPayment() {
-//        final Long id = 1L;
-//
-//        final ResponseEntity<Void> expectedResponseEntity = ResponseEntity.status(HttpStatus.OK).build();
-//
-//        Mockito.doNothing()
-//                .when(confirmPaymentUseCase).confirmPayment(Mockito.eq(id));
-//
-//        final ResponseEntity<Void> actualResponseEntity = orderController.confirmOrderPayment(id);
-//
-//        Assertions.assertEquals(expectedResponseEntity, actualResponseEntity);
-//        Mockito.verify(confirmPaymentUseCase, Mockito.times(1))
-//                .confirmPayment(Mockito.eq(id));
-//    }
 }

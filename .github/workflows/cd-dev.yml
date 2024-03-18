@@ -140,7 +140,8 @@ jobs:
           sed -i "s/{{DB_HOSTNAME_KEY}}/${{ secrets.DATABASE_HOST_DEV }}/g" ./deploy/dev/app/app-secret.yml 
           sed -i "s/{{DB_PORT_KEY}}/${{ secrets.DATABASE_PORT_DEV }}/g" ./deploy/dev/app/app-secret.yml 
           sed -i "s/{{DB_USERNAME_KEY}}/${{ secrets.DATABASE_USERNAME_DEV }}/g" ./deploy/dev/app/app-secret.yml 
-          sed -i "s/{{DB_PASSWORD_KEY}}/${{ secrets.DATABASE_PASSWORD_DEV }}/g" ./deploy/dev/app/app-secret.yml         
+          sed -i "s/{{DB_PASSWORD_KEY}}/${{ secrets.DATABASE_PASSWORD_DEV }}/g" ./deploy/dev/app/app-secret.yml
+          sed -i "s/{{API_GATEWAY_URL}}/${{ secrets.API_GATEWAY_URL_DEV }}/g" ./deploy/dev/app/app-secret.yml
       - name: "Injeta a versão no deployment"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

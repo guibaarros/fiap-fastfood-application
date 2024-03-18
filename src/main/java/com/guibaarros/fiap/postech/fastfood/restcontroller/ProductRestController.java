@@ -1,4 +1,4 @@
-package com.guibaarros.fiap.postech.fastfood.interfaces;
+package com.guibaarros.fiap.postech.fastfood.restcontroller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.guibaarros.fiap.postech.fastfood.infrastructure.web.exceptionhandler.ErrorDTO;
@@ -43,7 +43,7 @@ import java.util.List;
 @Tag(name = "Product Controller")
 @Validated
 @Slf4j
-public class ProductController {
+public class ProductRestController {
 
     private final CreateProductUseCase createProductUseCase;
     private final DeleteProductUseCase deleteProductUseCase;
