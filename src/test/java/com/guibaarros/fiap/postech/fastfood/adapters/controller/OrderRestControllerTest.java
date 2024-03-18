@@ -3,8 +3,8 @@ package com.guibaarros.fiap.postech.fastfood.adapters.controller;
 import com.guibaarros.fiap.postech.fastfood.application.dtos.order.OrderRequestDTO;
 import com.guibaarros.fiap.postech.fastfood.application.dtos.order.OrderResponseDTO;
 import com.guibaarros.fiap.postech.fastfood.application.usecases.order.ConfirmPaymentUseCase;
-import com.guibaarros.fiap.postech.fastfood.application.usecases.order.CreateOrderUseCase;
 import com.guibaarros.fiap.postech.fastfood.application.usecases.order.ListQueuedOrderUseCase;
+import com.guibaarros.fiap.postech.fastfood.interfaces.order.OrderController;
 import com.guibaarros.fiap.postech.fastfood.restcontroller.OrderRestController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,17 +22,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.mockito.ArgumentMatchers.any;
+
 @ExtendWith(MockitoExtension.class)
 class OrderRestControllerTest {
-
-    @Mock
-    private CreateOrderUseCase createOrderUseCase;
 
     @Mock
     private ListQueuedOrderUseCase listQueuedOrderUseCase;
 
     @Mock
     private ConfirmPaymentUseCase confirmPaymentUseCase;
+
+    @Mock
+    private OrderController orderController;
 
     @InjectMocks
     private OrderRestController orderRestController;
@@ -53,10 +55,8 @@ class OrderRestControllerTest {
         orderResponseDTO.setFormattedNumber("001");
         orderResponseDTO.setTotalAmount(BigDecimal.valueOf(3L));
 
-        Mockito.when(createOrderUseCase.createOrder(
-                        Mockito.eq(orderRequestDTO.getClientId()),
-                        Mockito.eq(orderRequestDTO.getProductIds())
-                )).thenReturn(orderResponseDTO);
+
+        Mockito.when(orderController.createOrder(any(), any())).thenReturn(orderResponseDTO);
 
         final ResponseEntity<OrderResponseDTO> expectedResponseEntity =
                 ResponseEntity.status(HttpStatus.CREATED).body(orderResponseDTO);
@@ -64,7 +64,7 @@ class OrderRestControllerTest {
         final ResponseEntity<OrderResponseDTO> actualResponseEntity = orderRestController.createOrder(headers, orderRequestDTO);
 
         Assertions.assertEquals(expectedResponseEntity, actualResponseEntity);
-        Mockito.verify(createOrderUseCase, Mockito.times(0)).createOrder(Mockito.any());
+        Mockito.verify(orderController, Mockito.times(1)).createOrder(any(), any());
     }
 
     @Test
@@ -79,9 +79,7 @@ class OrderRestControllerTest {
         orderResponseDTO.setFormattedNumber("001");
         orderResponseDTO.setTotalAmount(BigDecimal.valueOf(3L));
 
-        Mockito.when(createOrderUseCase.createOrder(
-                Mockito.eq(orderRequestDTO.getProductIds())
-        )).thenReturn(orderResponseDTO);
+        Mockito.when(orderController.createOrder(any(), any())).thenReturn(orderResponseDTO);
 
         final ResponseEntity<OrderResponseDTO> expectedResponseEntity =
                 ResponseEntity.status(HttpStatus.CREATED).body(orderResponseDTO);
@@ -89,8 +87,7 @@ class OrderRestControllerTest {
         final ResponseEntity<OrderResponseDTO> actualResponseEntity = orderRestController.createOrder(headers, orderRequestDTO);
 
         Assertions.assertEquals(expectedResponseEntity, actualResponseEntity);
-        Mockito.verify(createOrderUseCase, Mockito.times(0))
-                .createOrder(Mockito.any(), Mockito.any());
+        Mockito.verify(orderController, Mockito.times(1)).createOrder(any(), any());
     }
 
     @Test
