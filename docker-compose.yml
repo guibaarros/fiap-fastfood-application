@@ -15,14 +15,14 @@ services:
       - .database:/VAR/LIB/POSTGRESQL/DATA
       - .database/initial_data.sql:/docker-entrypoint-initdb.d/initial_data.sql
 
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: pgadmin_fiap_fastfood
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: pgadmin1234
-    ports:
-      - 15432:80
+#  pgadmin:
+#    image: dpage/pgadmin4:latest
+#    container_name: pgadmin_fiap_fastfood
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+#      PGADMIN_DEFAULT_PASSWORD: pgadmin1234
+#    ports:
+#      - 15432:80
 
 #  app:
 #    build:

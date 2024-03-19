@@ -289,10 +289,12 @@ A collection do Postman referente à aplicação rodando no docker levou em cons
 As instruções para execução dos testes está presente [aqui](docs/test_instructions_techchallenge_2.md).
 
 ## Arquitetura
-Foi feito um vídeo apresentando a arquitetura pensada: [Explicação da Arquitetura - FIAP - PosTech - Arquitetura de Software 3SOAT - Grupo 75](https://youtu.be/gOXv3GMY5AQ)
+### Diagrama da arquitetura atual (FASE III) na AWS:
+![arquitetura_cloud_aws](./docs/assets/arquitetura_aws_techchallenge_3.png)
+
+
+
+**_deprecated_** Foi feito um vídeo apresentando a arquitetura pensada (FASE II): [Explicação da Arquitetura - FIAP - PosTech - Arquitetura de Software 3SOAT - Grupo 75](https://youtu.be/gOXv3GMY5AQ)
 
 Esse é um desenho da arquitetura desenvolvida considerando o ambiente local: <br>
 ![arquitetura_local](./docs/assets/arquitetura_local.png)
-
-E considerando um deploy da aplicação na AWS, temos o seguinte desenho: <br>
-![arquitetura_aws](./docs/assets/arquitetura_aws.png)
