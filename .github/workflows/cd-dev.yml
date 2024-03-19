@@ -21,7 +21,7 @@ jobs:
         run: ./gradlew test --info
 
   analise-estatica:
-    name: "Análise Estática - Sonar Cloud"
+    name: "Análise Estática - Sonar Cloud - Dev"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
